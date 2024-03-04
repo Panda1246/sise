@@ -1,0 +1,7 @@
+#+TITLE: SISE
+#+SUBTITLE: nie SUSE
+
+* Linki
+- [[https://github.com/anubhavparas/n-puzzle-problem][anu]] -- brak licencji
+- [[https://github.com/mohamedrezk122/fifteen-puzzle-solver][mohamed]] -- MIT
+- [[https://github.com/m-strzelec/fifteen-puzzle-solver][m-strzelec]] -- MIT
