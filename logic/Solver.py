@@ -1,4 +1,7 @@
+from collections import deque
+
 from Board import Board
+from time import time
 
 class Solver:
     def __init__(self, board):
@@ -14,7 +17,10 @@ class Solver:
 
     # To implement
     def solveBoardWithBFS(self):
-        pass
+        visited_states = 0
+        processed_states = 0
+        max_depth = 0
+        start_time = time()
 
     def solveBoardWithAStar(self):
         pass
@@ -32,5 +38,22 @@ class Solver:
     # Calculates Manhattan metrics to element with 0 for each part of puzzle
     def getManhattanMetric(self, currX, currY):
         pass
+
+    def getPossibleMoves(self, currX, currY):
+        allPossibleMoves = ["L", "R", "U", "D"]
+        if currY == 0:
+            allPossibleMoves.remove("U")
+
+        if currY == self.boardY - 1:
+            allPossibleMoves.remove("D")
+
+        if currX == 0:
+            allPossibleMoves.remove("L")
+
+        if currX == self.boardX - 1:
+            allPossibleMoves.remove("R")
+
+        return allPossibleMoves
+
 
 

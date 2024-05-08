@@ -20,6 +20,8 @@ print(x)
 
 algorithm = sys.argv[0]
 
+print(solver.getPossibleMoves(1, 2))
+
 if algorithm == 'bfs':
     pass
 
