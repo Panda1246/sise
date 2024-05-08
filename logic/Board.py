@@ -48,6 +48,7 @@ class Board:
             print()
 
     def createSolvedBoard(self):
+        tempBoard = Board()
         newBoard = self.createEmpty2DArray(self.x, self.y)
         for i in range(0, self.y):
             for j in range(0, self.x):
@@ -56,7 +57,8 @@ class Board:
                     newBoard[i][j] = 0
                 else:
                     newBoard[i][j] = self.y * i + j + 1
-        return newBoard
+        tempBoard.initializeWithBoard(newBoard)
+        return tempBoard
 
 
     def createEmpty2DArray(self, x, y):
@@ -76,3 +78,9 @@ class Board:
 
     def getBoard(self):
         return copy.deepcopy(self.boardData)
+
+    def getX(self):
+        return copy.deepcopy(self.x)
+
+    def getY(self):
+        return copy.deepcopy(self.y)

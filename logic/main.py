@@ -9,12 +9,14 @@ board.initializeWithFile("testBoard.txt")
 board.printBoard()
 solver = Solver(board)
 
-testBoard = board.createSolvedBoard()
-newBoard = Board()
+newBoard = board.createSolvedBoard()
+
 print()
 
-newBoard.initializeWithBoard(testBoard)
 newBoard.printBoard()
+print()
+x = solver.getHammingMatric()
+print(x)
 
 algorithm = sys.argv[0]
 
@@ -24,5 +26,5 @@ if algorithm == 'bfs':
 elif algorithm == 'dfs':
     pass
 
-elif algorithm == 'astr':
+elif algorithm == 'astar':
     pass
