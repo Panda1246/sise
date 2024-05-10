@@ -20,12 +20,20 @@ print(x)
 
 algorithm = sys.argv[0]
 
-print(solver.getPossibleMoves())
-solver.moveZeroElement('L')
+#print(solver.getPossibleMoves(solver.))
+#solver.moveZeroElement('L')
 #board.setElement(1, 2, 6)
-board.printBoard()
+initialBoard = Board()
+initialBoard.initializeWithBoard(board.getBoard())
+
+if initialBoard.getBoard() == board.getBoard():
+    print("ok!!!")
+
 
 solver.solveBoardWithBFS("LRUD")
+initialBoard.printBoard()
+print('------------')
+board.printBoard()
 
 if algorithm == 'bfs':
     pass

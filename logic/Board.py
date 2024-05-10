@@ -37,7 +37,7 @@ class Board:
                         self.emptyPosition = [i, j]
 
     def initializeWithBoard(self, board):
-        self.boardData = board
+        self.boardData = copy.deepcopy(board)
         self.y = len(self.boardData)
         self.x = len(self.boardData[0])
         self.emptyPosition = self.getEmptyPosition()
