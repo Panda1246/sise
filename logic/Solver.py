@@ -54,7 +54,10 @@ class Solver:
                     if tempBoard.getBoard() == self.solvedBoard.getBoard():
                         print("solved")
                         tempBoard.printBoard()
-                        return tempBoard
+                        stop = time()
+                        finalTime = stop - startTime
+                        print("Time elapsed: " + str(finalTime) + " s")
+                        return [tempBoard, finalTime]
 
                         self.board = tempBoard
                         solved = True

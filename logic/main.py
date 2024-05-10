@@ -30,7 +30,15 @@ if initialBoard.getBoard() == board.getBoard():
     print("ok!!!")
 
 
-solvedBoard = solver.solveBoardWithBFS("LRUD")
+finalValues = solver.solveBoardWithBFS("LRUD")
+solvedBoard = finalValues[0]
+time = finalValues[1]
+
+with open("result.txt", "w") as currFile:
+    currFile.write("Time elapsed: " + str(time))
+    currFile.write("\nBoard to solve:\n " + str(board.getBoard()))
+    currFile.write("\nSolved board: \n" + str(solvedBoard.getBoard()))
+
 initialBoard.printBoard()
 print('------------')
 solvedBoard.printBoard()
