@@ -9,6 +9,7 @@ class Solver:
         self.solvedBoard = board.createSolvedBoard()
         self.boardX = board.getX()
         self.boardY = board.getY()
+        self.boardQueue = deque()
 
 
     # To implement
@@ -16,11 +17,24 @@ class Solver:
         pass
 
     # To implement
-    def solveBoardWithBFS(self):
-        visited_states = 0
-        processed_states = 0
-        max_depth = 0
-        start_time = time()
+    def solveBoardWithBFS(self, searchingMethod):
+        visitedStates = 0
+        processedStates = 0
+        maxDepth = 0
+        startTime = time()
+        visitedBoards = []
+        self.boardQueue.appendleft(self.board.getBoard())
+        while self.board.getBoard() != self.solvedBoard:
+            currentMoves = self.getPossibleMoves()
+            for letter in searchingMethod:
+                if letter in currentMoves:
+                    tempBoard = Board()
+                    currentBoard = self.boardQueue.pop()
+                    tempBoard.initializeWithBoard(currentBoard)
+                    print("ok")
+
+
+
 
     def solveBoardWithAStar(self):
         pass
@@ -39,8 +53,12 @@ class Solver:
     def getManhattanMetric(self, currX, currY):
         pass
 
-    def getPossibleMoves(self, currX, currY):
+    # possible moves for 0 element in the board
+    def getPossibleMoves(self):
         allPossibleMoves = ["L", "R", "U", "D"]
+        zeroElementPosition = self.board.getEmptyPosition()
+        currX = zeroElementPosition[0]
+        currY = zeroElementPosition[1]
         if currY == 0:
             allPossibleMoves.remove("U")
 
@@ -54,6 +72,36 @@ class Solver:
             allPossibleMoves.remove("R")
 
         return allPossibleMoves
+
+    def moveZeroElement(self, direction):
+        try:
+            currZeroPosition = self.board.getEmptyPosition()
+            currZeroX = currZeroPosition[0]
+            currZeroY = currZeroPosition[1]
+            if direction == 'L':
+                tempValue = self.board.getElement(currZeroX - 1, currZeroY)
+                self.board.setElement(currZeroX, currZeroY, tempValue)
+                self.board.setElement(currZeroX - 1, currZeroY, 0)
+
+            elif direction == 'R':
+                tempValue = self.board.getElement(currZeroX + 1, currZeroY)
+                self.board.setElement(currZeroX, currZeroY, tempValue)
+                self.board.setElement(currZeroX + 1, currZeroY, 0)
+
+            elif direction == "U":
+                tempValue = self.board.getElement(currZeroX, currZeroY - 1)
+                self.board.setElement(currZeroX, currZeroY, tempValue)
+                self.board.setElement(currZeroX, currZeroY - 1, 0)
+
+            elif direction == "D":
+                tempValue = self.board.getElement(currZeroX, currZeroY + 1)
+                self.board.setElement(currZeroX, currZeroY, tempValue)
+                self.board.setElement(currZeroX, currZeroY + 1, 0)
+
+        except IndexError:
+            print("Wrong index!!!")
+
+
 
 
 

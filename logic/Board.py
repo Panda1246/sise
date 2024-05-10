@@ -6,6 +6,7 @@ class Board:
         self.x = 0
         self.y = 0
         self.emptyPosition = [None, None]
+        self.listOfStates = []
 
     # w pliku pierwsza linijka musi zawierac wymiary ukladanki (x y)
     # kolejne linie sa odwzorowaniem rozmieszczenia elementow na ukladance
@@ -68,13 +69,13 @@ class Board:
         for i in range(0, self.x):
             for j in range(0, self.y):
                 if self.boardData[i][j] == 0:
-                    return [i, j]
+                    return [j, i]
 
     def getElement(self, x, y):
-        return self.boardData[x][y]
+        return self.boardData[y][x]
 
     def setElement(self, x, y, value):
-        self.boardData[x][y] = value
+        self.boardData[y][x] = value
 
     def getBoard(self):
         return copy.deepcopy(self.boardData)
@@ -84,3 +85,8 @@ class Board:
 
     def getY(self):
         return copy.deepcopy(self.y)
+    def updateStates(self, states):
+        self.listOfStates = states
+
+    def getStates(self):
+        return copy.deepcopy(self.listOfStates)
