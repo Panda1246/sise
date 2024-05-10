@@ -2,7 +2,7 @@ import copy
 from collections import deque
 
 from Board import Board
-from time import time
+from time import time, sleep
 
 class Solver:
     def __init__(self, board):
@@ -45,14 +45,17 @@ class Solver:
                     tempBoard.initializeWithBoard(currentBoard)
                     self.moveZeroElement(letter, tempBoard)
 
-
-                    if tempBoard.getBoard() not in parentForThisIteration:
+                    if tempBoard.getBoard() != parent:
                         visitedBoards.append(tempBoard.getBoard())
                         self.boardQueue.appendleft([tempBoard.getBoard(), parentForThisIteration])
 
 
                     # solved, we have the right board
                     if tempBoard.getBoard() == self.solvedBoard.getBoard():
+                        print("solved")
+                        tempBoard.printBoard()
+                        return tempBoard
+
                         self.board = tempBoard
                         solved = True
                         break

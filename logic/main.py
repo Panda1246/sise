@@ -30,10 +30,10 @@ if initialBoard.getBoard() == board.getBoard():
     print("ok!!!")
 
 
-solver.solveBoardWithBFS("LRUD")
+solvedBoard = solver.solveBoardWithBFS("LRUD")
 initialBoard.printBoard()
 print('------------')
-board.printBoard()
+solvedBoard.printBoard()
 
 if algorithm == 'bfs':
     pass
