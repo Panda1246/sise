@@ -15,11 +15,70 @@ class Solver:
 
 
     # To implement
-    def solveBoardWithDFS(self):
-        pass
+    def solveBoardWithDFS(self, searchingOrder):
+        solved = False
+        visitedStates = 0
+        processedStates = 0
+        maxDepth = 0
+        currDepth = 0
+        startTime = time()
+        visitedBoards = list()
+
+        #for now this is board stack
+        self.boardQueue.appendleft([self.board.getBoard(), self.board.getBoard(), 0])
+        visitedBoards.append(self.board.getBoard())
+
+        while self.boardQueue:
+            #first of all initial node list(stack) contains only one value - intial value(initial state of the board)
+
+            # checking if current board state is a solution
+
+            currentBoard, parent, depth = self.boardQueue.pop()
+            parentForThisIteration = copy.deepcopy(currentBoard)
+
+            tempBoard = Board()
+            tempBoard.initializeWithBoard(currentBoard)
+
+            #board is solved, returning the final value
+            if tempBoard.getBoard() == self.solvedBoard.getBoard():
+                stopTime = time()
+                return [tempBoard, stopTime - startTime]
+            #if not, algorithm continues to find the proper solution
+
+            currentMoves = self.getPossibleMoves(tempBoard)
+            currDepth += 1
+
+            #we need to add items to the stack in revrse order to ensure valid queue
+            for letter in searchingOrder[::-1]:
+                if letter in currentMoves:
+                    tempBoard = Board()
+                    tempBoard.initializeWithBoard(currentBoard)
+                    self.moveZeroElement(letter, tempBoard)
+
+                    if tempBoard.getBoard() != parent or tempBoard.getBoard() not in visitedBoards:
+                        visitedBoards.append(tempBoard.getBoard())
+                        self.boardQueue.append([tempBoard.getBoard(), parentForThisIteration, currDepth])
+
+
+
+                    # solved, we have the right board
+                    if tempBoard.getBoard() == self.solvedBoard.getBoard():
+                        print("solved")
+                        tempBoard.printBoard()
+                        stop = time()
+                        finalTime = stop - startTime
+                        print("Time elapsed: " + str(finalTime) + " s")
+                        return [tempBoard, finalTime]
+
+            if currDepth >= 20:
+                self.boardQueue.pop()
+                currDepth -= 1
+
+                    #print("ok")
+        print("the end")
 
     # To implement
-    def solveBoardWithBFS(self, searchingMethod):
+    def solveBoardWithBFS(self, searchingOrder):
         solved = False
         visitedStates = 0
         processedStates = 0
@@ -39,13 +98,13 @@ class Solver:
             tempBoard.initializeWithBoard(currentBoard)
             currentMoves = self.getPossibleMoves(tempBoard)
 
-            for letter in searchingMethod:
+            for letter in searchingOrder:
                 if letter in currentMoves:
                     tempBoard = Board()
                     tempBoard.initializeWithBoard(currentBoard)
                     self.moveZeroElement(letter, tempBoard)
 
-                    if tempBoard.getBoard() != parent:
+                    if tempBoard.getBoard() != parent or tempBoard.getBoard() not in visitedBoards:
                         visitedBoards.append(tempBoard.getBoard())
                         self.boardQueue.appendleft([tempBoard.getBoard(), parentForThisIteration])
 
@@ -58,12 +117,6 @@ class Solver:
                         finalTime = stop - startTime
                         print("Time elapsed: " + str(finalTime) + " s")
                         return [tempBoard, finalTime]
-
-                        self.board = tempBoard
-                        solved = True
-                        break
-
-
 
                     #print("ok")
         print("the end")

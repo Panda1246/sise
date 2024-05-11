@@ -30,7 +30,7 @@ if initialBoard.getBoard() == board.getBoard():
     print("ok!!!")
 
 
-finalValues = solver.solveBoardWithBFS("LRUD")
+finalValues = solver.solveBoardWithDFS("LRUD")
 solvedBoard = finalValues[0]
 time = finalValues[1]
 
