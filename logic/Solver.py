@@ -23,9 +23,12 @@ class Solver:
         currDepth = 0
         startTime = time()
         visitedBoards = list()
+        parentNodes = deque()
 
         #for now this is board stack
+        # board, parentboard,
         self.boardQueue.appendleft([self.board.getBoard(), self.board.getBoard(), 0])
+        parentNodes.appendleft([self.board.getBoard(), self.board.getBoard(), 0])
         visitedBoards.append(self.board.getBoard())
 
         while self.boardQueue:
@@ -33,8 +36,9 @@ class Solver:
 
             # checking if current board state is a solution
 
-            currentBoard, parent, depth = self.boardQueue.pop()
+            currentBoard, parent, depth = self.boardQueue.popleft()
             parentForThisIteration = copy.deepcopy(currentBoard)
+            #parentNodes.appendleft([copy.deepcopy(currentBoard), copy.deepcopy(parent), depth])
 
             tempBoard = Board()
             tempBoard.initializeWithBoard(currentBoard)
@@ -46,19 +50,21 @@ class Solver:
             #if not, algorithm continues to find the proper solution
 
             currentMoves = self.getPossibleMoves(tempBoard)
-            currDepth += 1
-
+            boardChanged = False
             #we need to add items to the stack in revrse order to ensure valid queue
-            for letter in searchingOrder[::-1]:
+            currDepth += 1
+            for letter in searchingOrder:
                 if letter in currentMoves:
                     tempBoard = Board()
                     tempBoard.initializeWithBoard(currentBoard)
                     self.moveZeroElement(letter, tempBoard)
 
-                    if tempBoard.getBoard() != parent or tempBoard.getBoard() not in visitedBoards:
+                    if tempBoard.getBoard() != parent and tempBoard.getBoard() not in visitedBoards:
                         visitedBoards.append(tempBoard.getBoard())
-                        self.boardQueue.append([tempBoard.getBoard(), parentForThisIteration, currDepth])
-
+                        self.boardQueue.appendleft([tempBoard.getBoard(), parentForThisIteration, currDepth])
+                        parentNodes.appendleft(([tempBoard.getBoard(), parentForThisIteration, currDepth]))
+                        boardChanged = True
+                        break
 
 
                     # solved, we have the right board
@@ -70,9 +76,29 @@ class Solver:
                         print("Time elapsed: " + str(finalTime) + " s")
                         return [tempBoard, finalTime]
 
-            if currDepth >= 20:
-                self.boardQueue.pop()
-                currDepth -= 1
+            if currDepth >= 600000 or boardChanged is False:
+                #pass
+                currDepth = currDepth - 1
+                if len(parentNodes) < 2:
+                    return [None, None]
+
+                if boardChanged is False:
+                    currNode, parentNode, depth = parentNodes.popleft()
+                    self.boardQueue.appendleft([currNode, parentNode, depth])
+                else:
+                    b, c, f = self.boardQueue.popleft()
+                    currNode, parentNode, depth = parentNodes.popleft()
+                    previousNode, previousParent, depth = parentNodes.popleft()
+                    # print("current: " + str(b))
+                    self.boardQueue.appendleft([previousNode, previousParent, depth])
+
+
+                #b, c, f = self.boardQueue.popleft()
+                #print("previous:")
+                #print(str(b))
+
+                #parentNodes.appendleft([previousNode, previousParent, depth])
+
 
                     #print("ok")
         print("the end")

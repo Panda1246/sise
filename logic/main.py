@@ -31,17 +31,21 @@ if initialBoard.getBoard() == board.getBoard():
 
 
 finalValues = solver.solveBoardWithDFS("LRUD")
-solvedBoard = finalValues[0]
-time = finalValues[1]
+if finalValues[0] is not None:
+    solvedBoard = finalValues[0]
+    time = finalValues[1]
 
-with open("result.txt", "w") as currFile:
-    currFile.write("Time elapsed: " + str(time))
-    currFile.write("\nBoard to solve:\n " + str(board.getBoard()))
-    currFile.write("\nSolved board: \n" + str(solvedBoard.getBoard()))
+    with open("result.txt", "w") as currFile:
+        currFile.write("Time elapsed: " + str(time))
+        currFile.write("\nBoard to solve:\n " + str(board.getBoard()))
+        currFile.write("\nSolved board: \n" + str(solvedBoard.getBoard()))
 
-initialBoard.printBoard()
-print('------------')
-solvedBoard.printBoard()
+
+    initialBoard.printBoard()
+    print('------------')
+    solvedBoard.printBoard()
+else:
+    print("coultn't find value")
 
 if algorithm == 'bfs':
     pass
