@@ -68,31 +68,20 @@ class Board:
     def getEmptyPosition(self):
         for i in range(0, self.x):
             for j in range(0, self.y):
-                if self.boardData[i][j] == 0:
-                    return [j, i]
+                if self.boardData[i][j] == 0: return [j, i]
 
-    def getElement(self, x, y):
-        return self.boardData[y][x]
+    def getElement(self, x, y): return self.boardData[y][x]
+    def setElement(self, x, y, value): self.boardData[y][x] = value
 
-    def setElement(self, x, y, value):
-        self.boardData[y][x] = value
+    def getBoard(self): return copy.deepcopy(self.boardData)
 
-    def getBoard(self):
-        return copy.deepcopy(self.boardData)
+    def getX(self): return copy.deepcopy(self.x)
+    def getY(self): return copy.deepcopy(self.y)
 
-    def getX(self):
-        return copy.deepcopy(self.x)
-
-    def getY(self):
-        return copy.deepcopy(self.y)
-    def updateStates(self, states):
-        self.listOfStates = states
-
-    def getStates(self):
-        return copy.deepcopy(self.listOfStates)
+    def getStates(self): return copy.deepcopy(self.listOfStates)
+    def updateStates(self, states): self.listOfStates = states
 
     def getElementPosition(self, value):
         for i in range(0, self.y):
             for j in range(0, self.x):
-                if self.boardData[i][j] == value:
-                    return [i, j]
+                if self.boardData[i][j] == value: return [i, j]
