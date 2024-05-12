@@ -21,7 +21,7 @@
 # actual program, using the absolute (or relative) path, for example:
 #  progcmd='/home/user/15puzzle/bin/solver' (native code)
 #  progcmd='java -jar /home/user/15puzzle/bin/solver.jar' (executable JAR file)
-progcmd='python3 /home/piotrek/Documents/studia/rok_2/semestr_4/sise/logic/main.py' # (Python file)
+progcmd='python3 /home/piotrek/Documents/studia/rok_2/sise/logic/main.py' # (Python file)
 
 #progcmd='echo program'
 orders=(RDUL RDLU DRUL DRLU LUDR LURD ULDR ULRD)

@@ -27,7 +27,7 @@ elif algorithm == "dfs":
     searchingOrder = sys.argv[2]
     solved = solver.solveBoardWithDFS(searchingOrder)
 
-elif algorithm == "astar":
+elif algorithm == "astr":
     heuristic = sys.argv[2]
     solved = solver.solveBoardWithAStar(heuristic)
 
