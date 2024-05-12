@@ -28,80 +28,46 @@ class Solver:
         startTime = time()
 
 
-        visitedBoards = list()
+        visitedBoards = deque()
 
         #for now this is board stack
-        # stack initialization
-        self.boardStack.appendleft(self.board.getBoard())
-
-        # pushing all possible neighbors to the stack:
+        # stack initialization with board state and moves, depth
+        self.boardStack.appendleft([self.board.getBoard(), [],  0])
+        visitedBoards.append(self.board.getBoard())
         tempBoard = Board()
-        tempBoard.initializeWithBoard(self.board.getBoard())
-
-        currBoard = tempBoard.getBoard()
-        currMoves = self.getPossibleMoves(tempBoard)
-        visitedBoards.append(currBoard)
-
-        #pushing all possible moves to the stack
-        currDepth += 1
-        for letter in searchingOrder:
-            if letter in currMoves:
-                tempBoard.initializeWithBoard(currBoard)
-                self.moveZeroElement(letter, tempBoard)
-                if tempBoard.getBoard() not in visitedBoards:
-                    visitedBoards.append(tempBoard.getBoard())
-                    self.boardStack.appendleft(tempBoard.getBoard())
-                    visitedStates += 1
-                    break
-
-        #while stack is not empty do:
 
         while self.boardStack:
-            print("curr depth: " + str(currDepth))
-            foundNeighbor = False
-            if len(self.boardStack) >= 2 and currDepth < 30:
-                tboard = self.boardStack.popleft()
-                if tboard == self.solvedBoard.getBoard():
-                    stopTime = time()
-                    tempBoard.initializeWithBoard(tboard)
-                    return [tempBoard, stopTime - startTime]
-                tempBoard.initializeWithBoard(tboard)
-                currMoves = self.getPossibleMoves(tempBoard)
-                self.boardStack.appendleft(tboard)
-                currDepth += 1
+            noMoreOptions = True
+            currState, currMoves, depth = self.boardStack.popleft()
+            if currState == self.solvedBoard.getBoard():
+                stopTime = time()
+                tempBoard.initializeWithBoard(currState)
+                return [tempBoard, stopTime - startTime]
 
+            self.boardStack.appendleft([currState, currMoves,  depth])
+            tempBoard.initializeWithBoard(currState)
+            possibleMoves = self.getPossibleMoves(tempBoard)
+            if depth < 10:
                 for letter in searchingOrder:
-                    if letter in currMoves:
-                        tempBoard.initializeWithBoard(tboard)
+                    if letter in possibleMoves:
+                        tempBoard.initializeWithBoard(currState)
                         self.moveZeroElement(letter, tempBoard)
+                        visitedStates += 1
                         if tempBoard.getBoard() not in visitedBoards:
                             visitedBoards.append(tempBoard.getBoard())
-                            self.boardStack.appendleft(tempBoard.getBoard())
-                            visitedStates += 1
-                            foundNeighbor = True
+                            currMoves.append(letter)
+                            self.boardStack.appendleft([tempBoard.getBoard(), currMoves, depth + 1])
+                            noMoreOptions = False
                             break
 
-                if foundNeighbor is False:
-                    currDepth -= 2
+                if noMoreOptions is True:
                     self.boardStack.popleft()
-
             else:
-                currDepth -= 1
                 self.boardStack.popleft()
 
-            print("stack items: " + str(len(self.boardStack)))
-            print("visited states: " + str(visitedStates))
 
-        print(visitedStates)
-        print(visitedBoards)
-        for i in visitedBoards:
-            if i == self.solvedBoard.getBoard():
-                print("\n\nboard has been found\n\n")
-            else:
-                print("wrong board: " + str(i))
-        print(self.solvedBoard.getBoard())
-        print()
-        return None
+
+
 
     # To implement
     def solveBoardWithBFS(self, searchingOrder):

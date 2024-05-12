@@ -30,7 +30,7 @@ if initialBoard.getBoard() == board.getBoard():
     print("ok!!!")
 
 
-finalValues = solver.solveBoardWithDFS("LRUD")
+finalValues = solver.solveBoardWithDFS("DRUL")
 if finalValues is not None:
     solvedBoard = finalValues[0]
     time = finalValues[1]
@@ -44,9 +44,6 @@ if finalValues is not None:
         currFile.write("\nSolved board: \n" + str(solvedBoard.getBoard()))
 
 
-    initialBoard.printBoard()
-    print('------------')
-    solvedBoard.printBoard()
 else:
     print("coultn't find value")
 
