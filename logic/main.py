@@ -30,7 +30,7 @@ if initialBoard.getBoard() == board.getBoard():
     print("ok!!!")
 
 
-finalValues = solver.solveBoardWithDFS("DRUL")
+finalValues = solver.solveBoardWithDFS("RDUL")
 if finalValues is not None:
     solvedBoard = finalValues[0]
     time = finalValues[1]

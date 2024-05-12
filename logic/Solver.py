@@ -4,6 +4,7 @@ from collections import deque
 from Board import Board
 from time import time, sleep
 
+
 class Solver:
     def __init__(self, board):
         self.board = board
@@ -14,11 +15,10 @@ class Solver:
         self.boardQueue = deque()
         self.boardStack = deque()
 
-
     # To implement
     def solveBoardWithDFS(self, searchingOrder):
-        #reversing searching order to encure valid order in the stack implementation
-        #searchingOrder = searchingOrder[::-1]
+        # reversing searching order to encure valid order in the stack implementation
+        # searchingOrder = searchingOrder[::-1]
 
         solved = False
         visitedStates = 0
@@ -27,36 +27,49 @@ class Solver:
         currDepth = 0
         startTime = time()
 
+        visitedBoards = {}
 
-        visitedBoards = deque()
-
-        #for now this is board stack
+        # for now this is board stack
         # stack initialization with board state and moves, depth
-        self.boardStack.appendleft([self.board.getBoard(), [],  0])
-        visitedBoards.append(self.board.getBoard())
+        self.boardStack.appendleft([self.board.getBoard(), [], 0])
+        b = self.board.getBoard()
+        visitedBoards[tuple(map(tuple, self.board.getBoard()))] = 0
         tempBoard = Board()
 
         while self.boardStack:
             noMoreOptions = True
             currState, currMoves, depth = self.boardStack.popleft()
+            # print(str(currState)+  " " + str(depth))
             if currState == self.solvedBoard.getBoard():
                 stopTime = time()
                 tempBoard.initializeWithBoard(currState)
                 return [tempBoard, stopTime - startTime]
 
-            self.boardStack.appendleft([currState, currMoves,  depth])
+            self.boardStack.appendleft([currState, currMoves, depth])
             tempBoard.initializeWithBoard(currState)
             possibleMoves = self.getPossibleMoves(tempBoard)
-            if depth < 10:
+            if depth < 20:
                 for letter in searchingOrder:
                     if letter in possibleMoves:
                         tempBoard.initializeWithBoard(currState)
                         self.moveZeroElement(letter, tempBoard)
                         visitedStates += 1
-                        if tempBoard.getBoard() not in visitedBoards:
-                            visitedBoards.append(tempBoard.getBoard())
+
+                        #  VERY IMPORTANT!!!!
+                        #  DEPTH NEED TO BE ADDED HERE , NOT IN THE CODE BELOW TO AVOID DEADLOCK(or something similar)
+                        depth += 1
+
+                        if tuple(map(tuple, tempBoard.getBoard())) not in visitedBoards or depth < visitedBoards[tuple(map(tuple, tempBoard.getBoard()))]:
+                            if tuple(map(tuple, tempBoard.getBoard())) in visitedBoards:
+                                if depth < visitedBoards[tuple(map(tuple, tempBoard.getBoard()))]:
+                                    #pass
+                                    print("visited")
+
+                            print("depth " + str(depth))
+                            visitedBoards[tuple(map(tuple, tempBoard.getBoard()))] = depth
                             currMoves.append(letter)
-                            self.boardStack.appendleft([tempBoard.getBoard(), currMoves, depth + 1])
+                            self.boardStack.appendleft([copy.deepcopy(tempBoard.getBoard()), copy.deepcopy(currMoves),
+                                                        copy.deepcopy(depth)])
                             noMoreOptions = False
                             break
 
@@ -64,10 +77,6 @@ class Solver:
                     self.boardStack.popleft()
             else:
                 self.boardStack.popleft()
-
-
-
-
 
     # To implement
     def solveBoardWithBFS(self, searchingOrder):
@@ -102,7 +111,6 @@ class Solver:
                         visitedBoards.append(tempBoard.getBoard())
                         self.boardQueue.appendleft([tempBoard.getBoard(), parentForThisIteration])
 
-
                     # solved, we have the right board
                     if tempBoard.getBoard() == self.solvedBoard.getBoard():
                         print("solved")
@@ -112,10 +120,8 @@ class Solver:
                         print("Time elapsed: " + str(finalTime) + " s")
                         return [tempBoard, finalTime]
 
-                    #print("ok")
+                    # print("ok")
         print("the end")
-
-
 
     def solveBoardWithAStar(self):
         pass
@@ -181,8 +187,3 @@ class Solver:
 
         except IndexError:
             print("Wrong index!!!")
-
-
-
-
-
