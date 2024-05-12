@@ -3,12 +3,54 @@ from Solver import Solver
 from Board import Board
 
 board = Board()
-board.initializeWithFile("testBoard.txt")
+'''board.initializeWithFile("testBoard.txt")
+solver = Solver(board)
+'''
+
+# program bfs RDUL 4x4_01_0001.txt 4x4_01_0001_bfs_rdul_sol.txt 4x4_01_0001_bfs_rdul_stats.txt
+
+algorithm = sys.argv[1]
+boardSourceFile = sys.argv[3]
+solDestFile = sys.argv[4]
+statsDestFile = sys.argv[5]
+
+board.initializeWithFile(boardSourceFile)
 solver = Solver(board)
 
-algorithm = ""
+solved = None
 
-finalValues = solver.solveBoardWithAStar("hamm","DRLU") #solver.solveBoardWithAStar("hamm", "LRUD")
+if algorithm == "bfs":
+    searchingOrder = sys.argv[2]
+    solved = solver.solveBoardWithBFS(searchingOrder)
+
+elif algorithm == "dfs":
+    searchingOrder = sys.argv[2]
+    solved = solver.solveBoardWithDFS(searchingOrder)
+
+elif algorithm == "astar":
+    heuristic = sys.argv[2]
+    solved = solver.solveBoardWithAStar(heuristic)
+
+
+solutionMoves = solved["moves"]
+solutionLen = len(solutionMoves)
+visitedStates = solved["visitedStates"]
+processedStates = solved["processedStates"]
+maxDepth = solved["maxDepth"]
+processingTime = solved["executionTime"]
+
+with open(solDestFile, "w") as solutionDestinationFile, open(statsDestFile, "w") as statisticsDestinationFile:
+    solutionDestinationFile.write(str(solutionLen) + '\n')
+    solutionDestinationFile.write(str(solutionMoves)+ '\n')
+    statisticsDestinationFile.write(str(solutionLen)+ '\n')
+    statisticsDestinationFile.write(str(visitedStates)+ '\n')
+    statisticsDestinationFile.write(str(processedStates)+ '\n')
+    statisticsDestinationFile.write(str(maxDepth)+ '\n')
+    statisticsDestinationFile.write(str(processingTime)+ '\n')
+
+'''algorithm = ""
+
+finalValues = solver.solveBoardWithDFS("DRLU") #solver.solveBoardWithAStar("hamm", "LRUD")
 if finalValues is not None:
     solvedBoard = finalValues["solvedBoard"]
     moves = finalValues["moves"]
@@ -41,4 +83,4 @@ elif algorithm == 'dfs':
     pass
 
 elif algorithm == 'astar':
-    pass
+    pass'''

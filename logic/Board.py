@@ -27,7 +27,7 @@ class Board:
 
             #inicializacja pustej 2-wymiarowej tablicy
             self.boardData = self.createEmpty2DArray(self.x, self.y)
-            print(str(self.x) + " " + str(self.y))
+            #print(str(self.x) + " " + str(self.y))
             for i in range(0, self.y):
                 currLine = currFile.readline().strip().split()
                 for j in range(0, self.x):

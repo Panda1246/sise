@@ -74,10 +74,10 @@ class Solver:
                             tuple(map(tuple, tempBoard.getBoard()))]:
                             if tuple(map(tuple, tempBoard.getBoard())) in visitedBoards:
                                 if depth < visitedBoards[tuple(map(tuple, tempBoard.getBoard()))]:
-                                    #pass
-                                    print("visited")
+                                    pass
+                                    #print("visited")
 
-                            print("depth " + str(depth))
+                            #print("depth " + str(depth))
                             visitedBoards[tuple(map(tuple, tempBoard.getBoard()))] = depth
                             currMoves.append(letter)
                             self.boardStack.appendleft([copy.deepcopy(tempBoard.getBoard()), copy.deepcopy(currMoves),
@@ -119,7 +119,7 @@ class Solver:
             currDepth += 1
             if currDepth > maxDepth:
                 maxDepth = currDepth
-            print("curr depth: " + str(currDepth))
+            #print("curr depth: " + str(currDepth))
             for letter in searchingOrder:
                 if letter in currentMoves:
                     tempBoard = Board()
@@ -134,27 +134,28 @@ class Solver:
 
                     # solved, we have the right board
                     if tempBoard.getBoard() == self.solvedBoard.getBoard():
-                        print("solved")
-                        tempBoard.printBoard()
+                        #print("solved")
+                        #tempBoard.printBoard()
                         stopTime = time()
                         finalTime = stopTime - startTime
-                        print("Time elapsed: " + str(finalTime) + " s")
+                        #print("Time elapsed: " + str(finalTime) + " s")
                         return {"solvedBoard": tempBoard.getBoard(),
                                 "moves": currentMoveOrder,
-                                "executionTime": round((stopTime - startTime) * 10000, 3),
+                                "executionTime": round((stopTime - startTime) * 1000, 3),
                                 "visitedStates": visitedStates,
                                 "processedStates": processedStates,
                                 "maxDepth": maxDepth}
 
                     # print("ok")
-        print("the end")
+        #print("the end")
 
-    def solveBoardWithAStar(self, heuristic, searchingOrder):
+    def solveBoardWithAStar(self, heuristic):
         if heuristic == "hamm":
             calculateH = self.getHammingMatric
         elif heuristic == "manh":
             calculateH = self.getManhattanMetric
 
+        searchingOrder = "LRUD"
         startTime = time()
         priorityQueue = PriorityQueue()
         visitedBoards = {}
