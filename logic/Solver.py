@@ -12,96 +12,96 @@ class Solver:
         self.boardX = board.getX()
         self.boardY = board.getY()
         self.boardQueue = deque()
+        self.boardStack = deque()
 
 
     # To implement
     def solveBoardWithDFS(self, searchingOrder):
+        #reversing searching order to encure valid order in the stack implementation
+        #searchingOrder = searchingOrder[::-1]
+
         solved = False
         visitedStates = 0
         processedStates = 0
         maxDepth = 0
         currDepth = 0
         startTime = time()
+
+
         visitedBoards = list()
-        parentNodes = deque()
 
         #for now this is board stack
-        # board, parentboard,
-        self.boardQueue.appendleft([self.board.getBoard(), self.board.getBoard(), 0])
-        parentNodes.appendleft([self.board.getBoard(), self.board.getBoard(), 0])
-        visitedBoards.append(self.board.getBoard())
+        # stack initialization
+        self.boardStack.appendleft(self.board.getBoard())
 
-        while self.boardQueue:
-            #first of all initial node list(stack) contains only one value - intial value(initial state of the board)
+        # pushing all possible neighbors to the stack:
+        tempBoard = Board()
+        tempBoard.initializeWithBoard(self.board.getBoard())
 
-            # checking if current board state is a solution
+        currBoard = tempBoard.getBoard()
+        currMoves = self.getPossibleMoves(tempBoard)
+        visitedBoards.append(currBoard)
 
-            currentBoard, parent, depth = self.boardQueue.popleft()
-            parentForThisIteration = copy.deepcopy(currentBoard)
-            #parentNodes.appendleft([copy.deepcopy(currentBoard), copy.deepcopy(parent), depth])
+        #pushing all possible moves to the stack
+        currDepth += 1
+        for letter in searchingOrder:
+            if letter in currMoves:
+                tempBoard.initializeWithBoard(currBoard)
+                self.moveZeroElement(letter, tempBoard)
+                if tempBoard.getBoard() not in visitedBoards:
+                    visitedBoards.append(tempBoard.getBoard())
+                    self.boardStack.appendleft(tempBoard.getBoard())
+                    visitedStates += 1
+                    break
 
-            tempBoard = Board()
-            tempBoard.initializeWithBoard(currentBoard)
+        #while stack is not empty do:
 
-            #board is solved, returning the final value
-            if tempBoard.getBoard() == self.solvedBoard.getBoard():
-                stopTime = time()
-                return [tempBoard, stopTime - startTime]
-            #if not, algorithm continues to find the proper solution
+        while self.boardStack:
+            print("curr depth: " + str(currDepth))
+            foundNeighbor = False
+            if len(self.boardStack) >= 2 and currDepth < 30:
+                tboard = self.boardStack.popleft()
+                if tboard == self.solvedBoard.getBoard():
+                    stopTime = time()
+                    tempBoard.initializeWithBoard(tboard)
+                    return [tempBoard, stopTime - startTime]
+                tempBoard.initializeWithBoard(tboard)
+                currMoves = self.getPossibleMoves(tempBoard)
+                self.boardStack.appendleft(tboard)
+                currDepth += 1
 
-            currentMoves = self.getPossibleMoves(tempBoard)
-            boardChanged = False
-            #we need to add items to the stack in revrse order to ensure valid queue
-            currDepth += 1
-            for letter in searchingOrder:
-                if letter in currentMoves:
-                    tempBoard = Board()
-                    tempBoard.initializeWithBoard(currentBoard)
-                    self.moveZeroElement(letter, tempBoard)
+                for letter in searchingOrder:
+                    if letter in currMoves:
+                        tempBoard.initializeWithBoard(tboard)
+                        self.moveZeroElement(letter, tempBoard)
+                        if tempBoard.getBoard() not in visitedBoards:
+                            visitedBoards.append(tempBoard.getBoard())
+                            self.boardStack.appendleft(tempBoard.getBoard())
+                            visitedStates += 1
+                            foundNeighbor = True
+                            break
 
-                    if tempBoard.getBoard() != parent and tempBoard.getBoard() not in visitedBoards:
-                        visitedBoards.append(tempBoard.getBoard())
-                        self.boardQueue.appendleft([tempBoard.getBoard(), parentForThisIteration, currDepth])
-                        parentNodes.appendleft(([tempBoard.getBoard(), parentForThisIteration, currDepth]))
-                        boardChanged = True
-                        break
+                if foundNeighbor is False:
+                    currDepth -= 2
+                    self.boardStack.popleft()
 
+            else:
+                currDepth -= 1
+                self.boardStack.popleft()
 
-                    # solved, we have the right board
-                    if tempBoard.getBoard() == self.solvedBoard.getBoard():
-                        print("solved")
-                        tempBoard.printBoard()
-                        stop = time()
-                        finalTime = stop - startTime
-                        print("Time elapsed: " + str(finalTime) + " s")
-                        return [tempBoard, finalTime]
+            print("stack items: " + str(len(self.boardStack)))
+            print("visited states: " + str(visitedStates))
 
-            if currDepth >= 600000 or boardChanged is False:
-                #pass
-                currDepth = currDepth - 1
-                if len(parentNodes) < 2:
-                    return [None, None]
-
-                if boardChanged is False:
-                    currNode, parentNode, depth = parentNodes.popleft()
-                    self.boardQueue.appendleft([currNode, parentNode, depth])
-                else:
-                    b, c, f = self.boardQueue.popleft()
-                    currNode, parentNode, depth = parentNodes.popleft()
-                    previousNode, previousParent, depth = parentNodes.popleft()
-                    # print("current: " + str(b))
-                    self.boardQueue.appendleft([previousNode, previousParent, depth])
-
-
-                #b, c, f = self.boardQueue.popleft()
-                #print("previous:")
-                #print(str(b))
-
-                #parentNodes.appendleft([previousNode, previousParent, depth])
-
-
-                    #print("ok")
-        print("the end")
+        print(visitedStates)
+        print(visitedBoards)
+        for i in visitedBoards:
+            if i == self.solvedBoard.getBoard():
+                print("\n\nboard has been found\n\n")
+            else:
+                print("wrong board: " + str(i))
+        print(self.solvedBoard.getBoard())
+        print()
+        return None
 
     # To implement
     def solveBoardWithBFS(self, searchingOrder):
@@ -111,6 +111,7 @@ class Solver:
         maxDepth = 0
         startTime = time()
         visitedBoards = list()
+        currDepth = 0
         self.boardQueue.appendleft([self.board.getBoard(), self.board.getBoard()])
         visitedBoards.append(self.board.getBoard())
 
@@ -123,7 +124,8 @@ class Solver:
             tempBoard = Board()
             tempBoard.initializeWithBoard(currentBoard)
             currentMoves = self.getPossibleMoves(tempBoard)
-
+            currDepth += 1
+            print("curr depth: " + str(currDepth))
             for letter in searchingOrder:
                 if letter in currentMoves:
                     tempBoard = Board()
@@ -162,7 +164,7 @@ class Solver:
                     missplacedValues += 1
         return missplacedValues
 
-    # Calculates Manhattan metrics to element with 0 for each part of puzzle
+    # Calculates Manhattan metrics to element with 0 for each part of the puzzle
     def getManhattanMetric(self, currX, currY):
         pass
 

@@ -31,9 +31,12 @@ if initialBoard.getBoard() == board.getBoard():
 
 
 finalValues = solver.solveBoardWithDFS("LRUD")
-if finalValues[0] is not None:
+if finalValues is not None:
     solvedBoard = finalValues[0]
     time = finalValues[1]
+    print()
+    print("solved board: " + str(solvedBoard.getBoard()))
+    print("time: " + str(time))
 
     with open("result.txt", "w") as currFile:
         currFile.write("Time elapsed: " + str(time))
