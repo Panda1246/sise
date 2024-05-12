@@ -21,9 +21,9 @@
 # actual program, using the absolute (or relative) path, for example:
 #  progcmd='/home/user/15puzzle/bin/solver' (native code)
 #  progcmd='java -jar /home/user/15puzzle/bin/solver.jar' (executable JAR file)
-progcmd='python3 /home/piotrek/Documents/studia/rok_2/sise/logic/main.py' # (Python file)
 
-#progcmd='echo program'
+progcmd='./main.py' # (Python file)
+
 orders=(RDUL RDLU DRUL DRLU LUDR LURD ULDR ULRD)
 heuristics=(hamm manh)
 init_filename_regex='^[a-zA-Z0-9]+_[0-9]+_[0-9]+.txt$'
@@ -32,8 +32,7 @@ usage() {
     echo "Usage: $scriptname [--strategy STRATEGY [--param PARAMETER]]"
 }
 
-runprog()
-{
+runprog() {
     for filename in *; do
         if [[ -f "$filename" && "$filename" =~ $init_filename_regex ]]; then
             filename_root="${filename%.txt}_${1}_${2,,}"
@@ -44,10 +43,9 @@ runprog()
     done
 }
 
-runbfs()
-{
+runbfs() {
     echo '===> Strategy: bfs <==='
-    if [[ -n "$1" ]]; then
+    if [ -n "$1" ]; then
         echo " -> Order: $1"
         runprog bfs "$1"
     else
@@ -58,10 +56,9 @@ runbfs()
     fi
 }
 
-rundfs()
-{
+rundfs() {
     echo '===> Strategy: dfs <==='
-    if [[ -n "$1" ]]; then
+    if [ -n "$1" ]; then
         echo " -> Order: $1"
         runprog dfs "$1"
     else
@@ -72,10 +69,9 @@ rundfs()
     fi
 }
 
-runastr()
-{
+runastr() {
     echo '===> Strategy: astr <==='
-    if [[ -n "$1" ]]; then
+    if [ -n "$1" ]; then
         echo " -> Heuristic: $1"
         runprog astr "$1"
     else
@@ -86,8 +82,7 @@ runastr()
     fi
 }
 
-runall()
-{
+runall() {
     runbfs
     rundfs
     runastr
@@ -96,12 +91,12 @@ runall()
 # Parse arguments
 scriptname=$(basename "$0")
 for arg in "$@"; do
-    if [[ "$arg" == '--help' ]]; then
+    if [ "$arg" == '--help' ]; then
         usage
         exit 0
     fi
 done
-while [[ "$#" > 0 ]]; do
+while [ "$#" -gt 0 ]; do
     case "$1" in
         --param)
             if [[ ! "$2" ]] || [[ "$2" == '--strategy' ]]; then
@@ -130,7 +125,7 @@ while [[ "$#" > 0 ]]; do
     shift
     shift
 done
-if [[ -z "$strategy" ]] && [[ -n "$param" ]]; then
+if [ -z "$strategy" ] && [ -n "$param" ]; then
     echo "$scriptname: error: argument --param: requires argument" \
          "--strategy" >&2
     usage
@@ -138,22 +133,13 @@ if [[ -z "$strategy" ]] && [[ -n "$param" ]]; then
 fi
 
 # Run a program solving the 15-puzzle using appropriate strategy/strategies
-if [[ -z "$strategy" ]]; then
+if [ -z "$strategy" ]; then
     runall
 else
     case "$strategy" in
-        bfs)
-            runbfs "$param"
-            ;;
-        dfs)
-            rundfs "$param"
-            ;;
-        astr)
-            runastr "$param"
-            ;;
-        *)
-            echo "$scriptname: error: unrecognized strategy: $strategy" >&2
-            exit 1
-            ;;
+        bfs) runbfs "$param" ;;
+        dfs) rundfs "$param" ;;
+        astr) runastr "$param" ;;
+        *) echo "$scriptname: error: unrecognized strategy: $strategy" >&2 &&  exit 1 ;;
     esac
 fi
