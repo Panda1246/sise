@@ -1,5 +1,6 @@
 import copy
 from collections import deque
+from queue import PriorityQueue
 
 from Board import Board
 from time import time, sleep
@@ -37,29 +38,40 @@ class Solver:
         tempBoard = Board()
 
         while self.boardStack:
+            processedStates += 1
             noMoreOptions = True
             currState, currMoves, depth = self.boardStack.popleft()
             # print(str(currState)+  " " + str(depth))
             if currState == self.solvedBoard.getBoard():
                 stopTime = time()
                 tempBoard.initializeWithBoard(currState)
-                return [tempBoard, stopTime - startTime]
+                finalMovesStr = ""
+                for letter in currMoves:
+                    finalMovesStr += letter
+
+                return {"solvedBoard": tempBoard.getBoard(),
+                        "moves": finalMovesStr,
+                        "executionTime": round((stopTime - startTime) * 1000, 3),
+                        "visitedStates": visitedStates,
+                        "processedStates": processedStates,
+                        "maxDepth": maxDepth}
 
             self.boardStack.appendleft([currState, currMoves, depth])
             tempBoard.initializeWithBoard(currState)
             possibleMoves = self.getPossibleMoves(tempBoard)
-            if depth < 20:
+            if depth <= 20:
+                if depth > maxDepth:
+                    maxDepth = depth
                 for letter in searchingOrder:
                     if letter in possibleMoves:
                         tempBoard.initializeWithBoard(currState)
                         self.moveZeroElement(letter, tempBoard)
-                        visitedStates += 1
-
                         #  VERY IMPORTANT!!!!
                         #  DEPTH NEED TO BE ADDED HERE , NOT IN THE CODE BELOW TO AVOID DEADLOCK(or something similar)
                         depth += 1
 
-                        if tuple(map(tuple, tempBoard.getBoard())) not in visitedBoards or depth < visitedBoards[tuple(map(tuple, tempBoard.getBoard()))]:
+                        if tuple(map(tuple, tempBoard.getBoard())) not in visitedBoards or depth < visitedBoards[
+                            tuple(map(tuple, tempBoard.getBoard()))]:
                             if tuple(map(tuple, tempBoard.getBoard())) in visitedBoards:
                                 if depth < visitedBoards[tuple(map(tuple, tempBoard.getBoard()))]:
                                     #pass
@@ -71,6 +83,7 @@ class Solver:
                             self.boardStack.appendleft([copy.deepcopy(tempBoard.getBoard()), copy.deepcopy(currMoves),
                                                         copy.deepcopy(depth)])
                             noMoreOptions = False
+                            visitedStates += 1
                             break
 
                 if noMoreOptions is True:
@@ -87,19 +100,25 @@ class Solver:
         startTime = time()
         visitedBoards = list()
         currDepth = 0
-        self.boardQueue.appendleft([self.board.getBoard(), self.board.getBoard()])
+        self.boardQueue.appendleft([self.board.getBoard(), self.board.getBoard(), ""])
         visitedBoards.append(self.board.getBoard())
 
         while self.boardQueue and not solved:
+            processedStates += 1
+
             currentIteration = self.boardQueue.pop()
             currentBoard = currentIteration[0]
             parent = currentIteration[1]
+            currentMoveOrder = currentIteration[2]
+
             parentForThisIteration = copy.deepcopy(currentBoard)
 
             tempBoard = Board()
             tempBoard.initializeWithBoard(currentBoard)
             currentMoves = self.getPossibleMoves(tempBoard)
             currDepth += 1
+            if currDepth > maxDepth:
+                maxDepth = currDepth
             print("curr depth: " + str(currDepth))
             for letter in searchingOrder:
                 if letter in currentMoves:
@@ -108,37 +127,102 @@ class Solver:
                     self.moveZeroElement(letter, tempBoard)
 
                     if tempBoard.getBoard() != parent or tempBoard.getBoard() not in visitedBoards:
+                        visitedStates += 1
                         visitedBoards.append(tempBoard.getBoard())
-                        self.boardQueue.appendleft([tempBoard.getBoard(), parentForThisIteration])
+                        currentMoveOrder += letter
+                        self.boardQueue.appendleft([tempBoard.getBoard(), parentForThisIteration, currentMoveOrder])
 
                     # solved, we have the right board
                     if tempBoard.getBoard() == self.solvedBoard.getBoard():
                         print("solved")
                         tempBoard.printBoard()
-                        stop = time()
-                        finalTime = stop - startTime
+                        stopTime = time()
+                        finalTime = stopTime - startTime
                         print("Time elapsed: " + str(finalTime) + " s")
-                        return [tempBoard, finalTime]
+                        return {"solvedBoard": tempBoard.getBoard(),
+                                "moves": currentMoveOrder,
+                                "executionTime": round((stopTime - startTime) * 10000, 3),
+                                "visitedStates": visitedStates,
+                                "processedStates": processedStates,
+                                "maxDepth": maxDepth}
 
                     # print("ok")
         print("the end")
 
-    def solveBoardWithAStar(self):
-        pass
+    def solveBoardWithAStar(self, heuristic, searchingOrder):
+        if heuristic == "hamm":
+            calculateH = self.getHammingMatric
+        elif heuristic == "manh":
+            calculateH = self.getManhattanMetric
+
+        startTime = time()
+        priorityQueue = PriorityQueue()
+        visitedBoards = {}
+
+        # Initialize the priority queue with the initial state
+        priorityQueue.put((calculateH(self.board), [self.board.getBoard(), "", 0]))
+        visitedBoards[tuple(map(tuple, self.board.getBoard()))] = 0
+        processedStates, visitedStates, maxDepth = 0, 0, 0
+
+        while not priorityQueue.empty():
+            currPriority, (currBoardState, currLettersOrder, currDepth) = priorityQueue.get()
+            processedStates += 1
+            if currDepth > maxDepth:
+                maxDepth = currDepth
+            if currBoardState == self.solvedBoard.getBoard():
+                stopTime = time()
+                tempBoard = Board()
+                tempBoard.initializeWithBoard(currBoardState)
+                return {"solvedBoard": tempBoard.getBoard(),
+                        "moves": currLettersOrder,
+                        "executionTime": round((stopTime - startTime) * 1000, 3),
+                        "visitedStates": visitedStates,
+                        "processedStates": processedStates,
+                        "maxDepth": maxDepth}
+
+            tempBoard = Board()
+            tempBoard.initializeWithBoard(currBoardState)
+            currentMoves = self.getPossibleMoves(tempBoard)
+
+            for letter in searchingOrder:
+                if letter in currentMoves:
+                    tempBoard = Board()
+                    tempBoard.initializeWithBoard(currBoardState)
+                    self.moveZeroElement(letter, tempBoard)
+
+                    # Calculate the new cost
+                    # f(n) = g(n) + h(n)
+                    newCost = currDepth + 1 + calculateH(tempBoard)
+
+                    if tuple(map(tuple, tempBoard.getBoard())) not in visitedBoards:
+                        visitedStates += 1
+                        visitedBoards[tuple(map(tuple, tempBoard.getBoard()))] = newCost
+                        priorityQueue.put((newCost, [tempBoard.getBoard(), currLettersOrder + letter, currDepth + 1]))
+
+        return None
 
     # Calculates Hamming metric
     # Returns number of the puzzles that are in wrong places
-    def getHammingMatric(self):
+    def getHammingMatric(self, board):
         missplacedValues = 0
         for i in range(0, self.boardY):
             for j in range(0, self.boardX):
-                if self.board.getElement(j, i) != self.solvedBoard.getElement(j, i):
+                if board.getElement(j, i) != self.solvedBoard.getElement(j, i) and board.getElement(j, i) != 0:
                     missplacedValues += 1
         return missplacedValues
 
     # Calculates Manhattan metrics to element with 0 for each part of the puzzle
-    def getManhattanMetric(self, currX, currY):
-        pass
+    def getManhattanMetric(self, board):
+        finalValue = 0
+        for i in range(self.boardY):
+            for j in range(self.boardX):
+                currValue = board.getElement(j, i)
+                if currValue != 0:
+                    currX = j
+                    currY = i
+                    targetY, targetX = self.solvedBoard.getElementPosition(currValue)
+                    finalValue += abs(currY - targetY) + abs(currX - targetX)
+        return finalValue
 
     # possible moves for 0 element in the board
     def getPossibleMoves(self, currBoard: Board):

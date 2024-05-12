@@ -90,3 +90,9 @@ class Board:
 
     def getStates(self):
         return copy.deepcopy(self.listOfStates)
+
+    def getElementPosition(self, value):
+        for i in range(0, self.y):
+            for j in range(0, self.x):
+                if self.boardData[i][j] == value:
+                    return [i, j]
