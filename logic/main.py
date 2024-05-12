@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import sys
 from Solver import Solver
 from Board import Board
