@@ -45,32 +45,35 @@ def plotType1(data, title, ylabel, filename):
     plt.close()
 
 # Main function
-def main():
+
+def globalPlots():
     data = read_data('data.csv')
 
     # Extract relevant data for plotting
-    time_data = extract_data(data, 8)
     solution_length_data = extract_data(data, 5)
     visited_states_data = extract_data(data, 6)
     processed_states_data = extract_data(data, 7)
+    time_data = extract_data(data, 8)
 
     # typ 1
     plotType1(time_data,
                     "Średni czas znalezienia rozwiązania w zależności od głębokości",
                     "Średni czas [ms]",
-                    'time_vs_diff.png')
+                    'glob_time_vs_diff.png')
     plotType1(solution_length_data,
                     "Średnia długość rozwiązania w zależności od głębokości",
                     "Średnia długość [ruchy]",
-                    'sol_len_vs_diff.png')
+                    'glob_sol_len_vs_diff.png')
     plotType1(visited_states_data,
                     "Średnia liczba odwiedzonych stanów w zależności od głębokości",
                     "Średni numer odwiedzonych stanów",
-                    'vstd_c_vs_diff.png')
+                    'glob_vstd_c_vs_diff.png')
     plotType1(processed_states_data,
                     "Średnia liczba przetworzonych stanów w zależności od głębokości",
                     "Średni numer przetworzonych stanów",
-                    'proc_c_vs_diff.png')
+                    'glob_proc_c_vs_diff.png')
 
-
+def main():
+    globalPlots()
+    
 if __name__ == "__main__": main()
