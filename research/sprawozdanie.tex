@@ -192,14 +192,15 @@ Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z dany
 \end{figure}
 
 \section{Dyskusja}
-Sekcja ta powinna zawierać dokładną interpretację uzyskanych wyników
-eksperymentów wraz ze szczegółowymi wnioskami z nich płynącymi. Najcenniejsze
-są, rzecz jasna, wnioski o charakterze uniwersalnym, które mogą być istotne
-przy innych, podobnych zadaniach. Należy również omówić i wyjaśnić wszystkie
-napotkane problemy (jeśli takie były). Każdy wniosek powinien mieć poparcie we
-wcześniej przeprowadzonych eksperymentach (odwołania do konkretnych wyników).
-Jest to jedna z najważniejszych sekcji tego sprawozdania, gdyż prezentuje
-poziom zrozumienia badanego problemu.}
+\subsection{Globalnie}
+W przytłaczającej większości przypadków algrytm A* był najlepszy pod każdym względem.
+Przy bardzo prostych układankach czasami BFS szybciej znajdywał rozwiązanie, jednak różnicza jest niewielka
+
+\subsection{Heurystyki A*}
+Nie można jednonacznie stwiedzić czy heurystyka Hamminga czy Manhattan są lepsze.
+Obydwa do rzwiązania potrzebują przetworzyć taką samą liczbę stanów, jednak Hamminga odwiedza ich więcej przy trudniejszych ukłądankach i  jest szybszy.
+
+\subsection{Strategie BFS i DFS}
 
 \section{Wnioski}
 Algorytm A* okazał się najszybszy, ale w teorii nie zawsze może dać rozwiązanie w przypadku bardziej skomplikowanych układanek. W przypadku tego algorytmu w naszych eksperymentach czas wykonania programu jak i ilosć odwiedzonych stanów pozostawała na bardzo niskim poziomie w miarę zwiększania się trudności poszczególnych układanek. 
