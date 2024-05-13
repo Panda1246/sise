@@ -133,7 +133,7 @@ def dbfsPlots(data):
                   "Średnia liczba odwiedzonych stanów w zależności od głębokości" + forName,
                   "Średni numer odwiedzonych stanów",
                   startName + '_vstd_c_vs_diff.png',
-                  isLog=False)
+                  isLog= (dbfs == "bfs"))
         plotType1(ps_data,
                   "Średnia liczba przetworzonych stanów w zależności od głębokości" + forName,
                   "Średni numer przetworzonych stanów",
