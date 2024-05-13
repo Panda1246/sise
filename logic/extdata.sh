@@ -24,3 +24,5 @@ for filename in ./*; do
         echo "$line" | sed 's/ /,/g' >> "$dataFile" # NOTE:musi być SED
     fi
 done
+
+rm "./4x4*" && echo "Replaced all files with one"
