@@ -27,7 +27,7 @@ def create_bar_plot(data, title, ylabel, filename):
     algorithms = list(data[1].keys())
     difficulty_levels = list(data.keys())
     bar_width = 0.35
-    index = [level + bar_width/2 for level in difficulty_levels]
+    index = [level for level in range(len(difficulty_levels))]  # Adjusted to use index as x-axis position
     plt.figure(figsize=(10, 6))
     for i, algorithm in enumerate(algorithms):
         values = [sum(data[level][algorithm])/len(data[level][algorithm]) for level in difficulty_levels]
@@ -36,7 +36,7 @@ def create_bar_plot(data, title, ylabel, filename):
     plt.xlabel('Difficulty Level')
     plt.ylabel(ylabel)
     plt.title(title)
-    plt.xticks([level + bar_width for level in difficulty_levels], difficulty_levels)
+    plt.xticks([level + bar_width for level in range(len(difficulty_levels))], difficulty_levels)
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
