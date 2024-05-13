@@ -136,7 +136,7 @@ Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z dany
  \caption{Globalnie: trudność a czas rozwiązania}
 \end{figure}
 \begin{figure}[p] \centering
- \includegraphics[width=0.9\linewidth]{./pic/glob_time_vs_diff.png}
+ \includegraphics[width=0.9\linewidth]{./pic/glob_vstd_c_vs_diff.png}
  \caption{Globalnie: trudność a odwiedzone stany}
 \end{figure}
 
@@ -153,7 +153,7 @@ Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z dany
  \caption{A*: trudność a czas rozwiązania}
 \end{figure}
 \begin{figure}[p] \centering
- \includegraphics[width=0.9\linewidth]{./pic/astr_time_vs_diff.png}
+ \includegraphics[width=0.9\linewidth]{./pic/astr_vstd_c_vs_diff.png}
  \caption{A*: trudność a odwiedzone stany}
 \end{figure}
 
@@ -167,11 +167,11 @@ Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z dany
 \end{figure}
 \begin{figure}[p] \centering
  \includegraphics[width=0.9\linewidth]{./pic/bfs_time_vs_diff.png}
- \caption{BFS: trudność a czas rozwiązania}
+ \caption{BFS: trudność a odwiedzone stany}
 \end{figure}
 \begin{figure}[p] \centering
- \includegraphics[width=0.9\linewidth]{./pic/bfs_time_vs_diff.png}
- \caption{BFS: trudność a odwiedzone stany}
+ \includegraphics[width=0.9\linewidth]{./pic/bfs_vstd_c_vs_diff.png}
+ \caption{BFS: trudność a czas rozwiązania}
 \end{figure}
 
 \begin{figure}[p] \centering
@@ -187,12 +187,11 @@ Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z dany
  \caption{DFS: trudność a czas rozwiązania}
 \end{figure}
 \begin{figure}[p] \centering
- \includegraphics[width=0.9\linewidth]{./pic/dfs_time_vs_diff.png}
+ \includegraphics[width=0.9\linewidth]{./pic/dfs_vstd_c_vs_diff.png}
  \caption{DFS: trudność a odwiedzone stany}
 \end{figure}
 
 \section{Dyskusja}
-{\color{blue}
 Sekcja ta powinna zawierać dokładną interpretację uzyskanych wyników
 eksperymentów wraz ze szczegółowymi wnioskami z nich płynącymi. Najcenniejsze
 są, rzecz jasna, wnioski o charakterze uniwersalnym, które mogą być istotne
@@ -210,12 +209,6 @@ Algorytm bfs jest w teorii algorytmem, który zawsze znajdzie rozwiązanie, nie 
 DFS okazał się w tym zestawieniu najwolniejszy, i choć rozwiązał wszystkie zadane układanki, robił to z największą liczbą przetworzonych i odwiedzonych stanów, a co za tym idzie z największym czasem wykonywania. Algorytm ten jeżeli źle, nieoptymalnie będzie wybierał kolejne węzły znacznie wydłuża swój czas wykonania i liczbę przetwarzanych/odwiedzanych stanów. Sytuacja wygląda inaczej, gdy znamy rozkład danych – wtedy DFS przy dobraniu optymalnych węzłów przetwarzających może okazać się naprawdę wydajnym rozwiązaniem.
 \begin{thebibliography}{0}
   \bibitem{l2short} T. Oetiker, H. Partl, I. Hyna, E. Schlegl.
-    \textsl{Nie za krótkie wprowadzenie do systemu \LaTeX2e}, 2007, dostępny
-    online.
+    \textsl{Nie za krótkie wprowadzenie do systemu \LaTeX2e}, 2007, dostępny online.
 \end{thebibliography}
-
-{\color{blue}
-Na końcu należy obowiązkowo podać cytowaną w sprawozdaniu literaturę, z której
-grupa korzystała w trakcie prac nad zadaniem.}
-
 \end{document}
