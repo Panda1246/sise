@@ -23,7 +23,7 @@ def extract_data(data, column_index): # Function to extract relevant data for pl
     return extracted_data
 
 # Function to create bar plots
-def create_bar_plot(data, title, ylabel, filename):
+def plotType1(data, title, ylabel, filename):
     algorithms = list(data[1].keys())
     difficulty_levels = list(data.keys())
     bar_width = 0.35
