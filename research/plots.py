@@ -38,7 +38,7 @@ def plotType1(data, title, ylabel, filename, isLog=True):
     for i, detail in enumerate(details):
         values = [sum(data[level][detail])/len(data[level][detail]) for level in difficulty_levels]
         plt.bar(index, values, bar_width, label=detail)
-        index = [x + bar_width for x in index]
+        index = [x + bar_width for x in index] # needed for multiple bars
     plt.xlabel('Difficulty Level')
     plt.ylabel(ylabel)
     plt.title(title)
