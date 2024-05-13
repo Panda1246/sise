@@ -109,12 +109,38 @@ def astarPlots(data):
               startName + '_proc_c_vs_diff.png',
               isLog=False)
 
-
-    pass # TODO: implement this
-
 def dbfsPlots(data):
-    pass # TODO: implement this
-    
+    for dbfs in ["bfs", "dfs"]:
+        sl_data = extract_data(data, 5, alg=dbfs)
+        vs_data = extract_data(data, 6, alg=dbfs)
+        ps_data = extract_data(data, 7, alg=dbfs)
+        t_data =  extract_data(data, 8, alg=dbfs)
+        
+        startName = dbfs
+        # forName = "dla A*"
+        forName = ""
+        
+        plotType1(t_data,
+                  "Średni czas znalezienia rozwiązania w zależności od głębokości" + forName,
+                  "Średni czas [ms]",
+                  startName + '_time_vs_diff.png',
+                  isLog=False)
+        plotType1(sl_data,
+                  "Średnia długość rozwiązania w zależności od głębokości" + forName,
+                  "Średnia długość [ruchy]",
+                  startName + '_sol_len_vs_diff.png',
+                  isLog=False)
+        plotType1(vs_data,
+                  "Średnia liczba odwiedzonych stanów w zależności od głębokości" + forName,
+                  "Średni numer odwiedzonych stanów",
+                  startName + '_vstd_c_vs_diff.png',
+                  isLog=False)
+        plotType1(ps_data,
+                  "Średnia liczba przetworzonych stanów w zależności od głębokości" + forName,
+                  "Średni numer przetworzonych stanów",
+                  startName + '_proc_c_vs_diff.png',
+                  isLog= (dbfs == "bfs"))
+
 def main():
     data = read_data('data.csv')
 
