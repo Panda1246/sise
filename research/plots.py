@@ -55,10 +55,6 @@ def main():
     processed_states_data = extract_data(data, 7)
 
     # typ 1
-    plotType1(time_data,
-                    "Średni czas znalezienia rozwiązania w zależności od głębokości",
-                    "Średni czas [ms]",
-                    'time_vs_diff.png')
     plotType1(solution_length_data,
                     "Średnia długość rozwiązania w zależności od głębokości",
                     "Średnia długość [ruchy]",
@@ -71,6 +67,10 @@ def main():
                     "Średnia liczba przetworzonych stanów w zależności od głębokości",
                     "Średni numer przetworzonych stanów",
                     'proc_c_vs_diff.png')
+    plotType1(time_data,
+                    "Średni czas znalezienia rozwiązania w zależności od głębokości",
+                    "Średni czas [ms]",
+                    'time_vs_diff.png')
 
 
 if __name__ == "__main__": main()
