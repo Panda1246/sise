@@ -4,6 +4,17 @@
 \usepackage{polski}
 \usepackage{url}
 
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+
 \DeclareUnicodeCharacter{00A0}{~}
 
 \studycycle{Informatyka Stosowana, studia dzienne, inż I st.}
@@ -120,6 +131,74 @@ kolumnach itd.) stosując się do przyjętych wcześniej oznaczeń. Nie należy 
 komentować i interpretować wyników, gdyż miejsce na to jest w kolejnej sekcji.
 Tu również dobrze jest wprowadzić oznaczenia (tabel, wykresów), aby móc się do
 nich odwoływać poniżej.}
+
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/glob_proc_c_vs_diff.png}
+ \caption{Globalnie: trudność a przetworzone stany}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/glob_sol_len_vs_diff.png}
+ \caption{Globalnie: trudność a długość rozwiązania}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/glob_time_vs_diff.png}
+ \caption{Globalnie: trudność a czas rozwiązania}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/glob_time_vs_diff.png}
+ \caption{Globalnie: trudność a odwiedzone stany}
+\end{figure}
+
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/astr_proc_c_vs_diff.png}
+ \caption{A*: trudność a przetworzone stany}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/astr_sol_len_vs_diff.png}
+ \caption{A*: trudność a długość rozwiązania}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/astr_time_vs_diff.png}
+ \caption{A*: trudność a czas rozwiązania}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/astr_time_vs_diff.png}
+ \caption{A*: trudność a odwiedzone stany}
+\end{figure}
+
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/bfs_proc_c_vs_diff.png}
+ \caption{BFS: trudność a przetworzone stany}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/bfs_sol_len_vs_diff.png}
+ \caption{BFS: trudność a długość rozwiązania}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/bfs_time_vs_diff.png}
+ \caption{BFS: trudność a czas rozwiązania}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/bfs_time_vs_diff.png}
+ \caption{BFS: trudność a odwiedzone stany}
+\end{figure}
+
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/dfs_proc_c_vs_diff.png}
+ \caption{DFS: trudność a przetworzone stany}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/dfs_sol_len_vs_diff.png}
+ \caption{DFS: trudność a długość rozwiązania}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/dfs_time_vs_diff.png}
+ \caption{DFS: trudność a czas rozwiązania}
+\end{figure}
+\begin{figure}[p] \centering
+ \includegraphics[width=0.9\linewidth]{./pic/dfs_time_vs_diff.png}
+ \caption{DFS: trudność a odwiedzone stany}
+\end{figure}
 
 \section{Dyskusja}
 {\color{blue}
