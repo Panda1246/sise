@@ -192,6 +192,12 @@ Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z dany
 \end{figure}
 
 \section{Dyskusja}
+Całkowite zestawienie rozwiązań ukłądanek pokazuje, że wszystkie zaimplementowane przez nas algorytmy były w 100\% skuteczne -- udało się rozwiązać wszystkie układanki przygotowane 
+przez program. Algorytm A-star wykazywał najmnijeszą liczbą przetworzonych stanów przy najkrótszym czasie znajdowania właściwej układanki. Metody heurystyczne okazały się tak samo
+skuteczne jak algorytmy przeszukiwania wszerz i w głąb w przypadku układanek o takich głębokościach, z jakimi mieliśmy do czynienia. 
+
+Niewątpliwą wadą algorytmów heurystycznych jest brak możliwości powrotu do poprzednich stanów i esksplorowania alternatywnych ścieżek rozwiązań, czego nie można powiedzieć o algorytmach bfs i dfs. BFS wykazał się w naszym przypadku większą szybkością i mniejszą liczbą przetwarzanych stanów niż dfs - nie mieliśmy bowiem wiedzy o rozlokowaniu grafu rozwiązań, więc algorytm bfs jest niewątpliwie bardziej optymalnym rozwiązaniem. Po odpowiedniej optymalizacji DFS jest w stanie rozwiązać wszystkie układanki, jednakże z zauważalnie większym czasem przetwarzania oraz znacząco większą liczbą przetworzonych stanów niż pozostałe algorytmy.
+
 \subsection{Globalnie}
 W przytłaczającej większości przypadków algrytm A* był najlepszy pod każdym względem.
 Przy bardzo prostych układankach czasami BFS szybciej znajdywał rozwiązanie, jednak różnicza jest niewielka
@@ -199,8 +205,6 @@ Przy bardzo prostych układankach czasami BFS szybciej znajdywał rozwiązanie, 
 \subsection{Heurystyki A*}
 Nie można jednonacznie stwiedzić czy heurystyka Hamminga czy Manhattan są lepsze.
 Obydwa do rzwiązania potrzebują przetworzyć taką samą liczbę stanów, jednak Hamminga odwiedza ich więcej przy trudniejszych ukłądankach i  jest szybszy.
-
-\subsection{Strategie BFS i DFS}
 
 \section{Wnioski}
 Algorytm A* okazał się najszybszy, ale w teorii nie zawsze może dać rozwiązanie w przypadku bardziej skomplikowanych układanek. W przypadku tego algorytmu w naszych eksperymentach czas wykonania programu jak i ilosć odwiedzonych stanów pozostawała na bardzo niskim poziomie w miarę zwiększania się trudności poszczególnych układanek. 
