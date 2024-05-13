@@ -17,8 +17,7 @@
 #     use only the particular order specified as PARAM for blind strategies or
 #     the particular heuristic specified as PARAM for informed strategies.
 #
-# TODO: Change variable $progcmd to match the command needed to invoke the
-# actual program, using the absolute (or relative) path, for example:
+# TODO: Change variable $progcmd to match the command needed to invoke the actual program, using the absolute (or relative) path, for example:
 #  progcmd='/home/user/15puzzle/bin/solver' (native code)
 #  progcmd='java -jar /home/user/15puzzle/bin/solver.jar' (executable JAR file)
 
