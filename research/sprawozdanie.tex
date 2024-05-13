@@ -50,13 +50,6 @@ Część programistyczna stanowi napisanie programu, który będzie rozwiązywa�
   \end{itemize}
 \end{itemize}
 
-
-
-{\color{blue}
-W tej sekcji należy zamieścić zwięzły (maksymalnie dwa, trzy zdania) opis
-problemu, który był rozwiązywany (uwzględnić należy zarówno część badawczą jak
-i programistyczną).}
-
 \section{Wprowadzenie}
 \subsection{Algorytm BFS}
 Algorytm BFS działa w taki sposób, że przeszukuje wszystkie możliwe stany idąc wszerz od węzła głównego – przeszukuje zatem wszystkie dostępne węzły na danej głębokości. Przekładając to na praktyczną implementację w „piętnastce” węzłem początkowym jest stan układanki, którą należy rozwiązać, a końcowym – układanka rozwiązana – ze wszystkimi elementami na odpowiedniej kolejności. Podczas każdej iteracji algorytmu sprawdza on dostępne możliwe ruchy, i jeżeli dane przesunięcie elementu zerowego da w rezultacie układ, który nie był do tej pory dla algorytmu znany, to staje się on kolejnym węzłem i będzie bazą do generowania możliwych przesunięć w kolejnych iteracjach. Po wygenerowaniu możliwych stanów dla danego węzła algrytm przystępuje do generowania możliwych stanów dla kolejnego węzła na tej samej głębokości, o ile jest on dostępny. Stosowana w tym przypadku jest struktura FIFO(kolejka). Algorytm kończy się w momencie, w którym napotka na stan, który odpowiada rozwiązanej układance.
@@ -122,6 +115,8 @@ Do przeprowadzenia badania wszystkich wygenerowanych układów łamigłówek zos
 Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z danymi. W celu wygodnego ich przetwarzania został wykorzystany kolejny skrypt ze strony przedmiotu – exdata.sh, wyjście skryptu za pomocą potoku zostało przekierowane do pliku tekstowego, dzięki czemu można było na podstawie pojedynczego pliku utworzyć odpowiednie wykresy i analizować otrzymane w wyniku przetwarzania rozwiązań układanek dane.
 
 \section{Wyniki}
+Nasze wyniki można zobaczyć na rysunkach 1 do 16, %HACK
+które znajdują się na dedykowanych do tego stronach.
 
 \begin{figure}[p] \centering
  \includegraphics[width=0.9\linewidth]{./pic/glob_proc_c_vs_diff.png}
@@ -187,6 +182,7 @@ Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z dany
  \caption{DFS: trudność a czas rozwiązania}
 \end{figure}
 \begin{figure}[p] \centering
+  \label{ostatni}
  \includegraphics[width=0.9\linewidth]{./pic/dfs_vstd_c_vs_diff.png}
  \caption{DFS: trudność a odwiedzone stany}
 \end{figure}
@@ -212,8 +208,13 @@ Algorytm A* okazał się najszybszy, ale w teorii nie zawsze może dać rozwiąz
 Algorytm bfs jest w teorii algorytmem, który zawsze znajdzie rozwiązanie, nie zawsze jednak w tak optymalnym czasie, jak algorytm wykorzystujący heurystyki. W tym przypadku czas rozwiązywania układanek przez algorytm bfs był na niskim poziomie, rozwiązane zostały wszysktie układanki. BFS jest algorytmem optymalnym, gdy nie znamy rozkładu danych i chcemy mieć pewność uzyskania rozwiązania.
 
 DFS okazał się w tym zestawieniu najwolniejszy, i choć rozwiązał wszystkie zadane układanki, robił to z największą liczbą przetworzonych i odwiedzonych stanów, a co za tym idzie z największym czasem wykonywania. Algorytm ten jeżeli źle, nieoptymalnie będzie wybierał kolejne węzły znacznie wydłuża swój czas wykonania i liczbę przetwarzanych/odwiedzanych stanów. Sytuacja wygląda inaczej, gdy znamy rozkład danych – wtedy DFS przy dobraniu optymalnych węzłów przetwarzających może okazać się naprawdę wydajnym rozwiązaniem.
-\begin{thebibliography}{0}
-  \bibitem{l2short} T. Oetiker, H. Partl, I. Hyna, E. Schlegl.
-    \textsl{Nie za krótkie wprowadzenie do systemu \LaTeX2e}, 2007, dostępny online.
-\end{thebibliography}
+\begin{itemize}
+\item{l2short} T. Oetiker, H. Partl, I. Hyna, E. Schlegl. \textsl{Nie za krótkie wprowadzenie do systemu \LaTeX2e}, 2007, dostępny online.
+\item \url{https://pl.wikipedia.org/wiki/Przeszukiwanie_wszerz}
+\item \url{https://pl.wikipedia.org/wiki/Przeszukiwanie_w_g\%C5\%82\%C4\%85b}
+\item \url{https://pl.wikipedia.org/wiki/Algorytm_A*}
+\item \url{https://www.algorytm.edu.pl/grafy/bfs.html}
+\item \url{https://www.algorytm.edu.pl/grafy/przeszukiwanie-w-glab.html}
+
+\end{itemize}
 \end{document}
