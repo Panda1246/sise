@@ -47,33 +47,68 @@ problemu, który był rozwiązywany (uwzględnić należy zarówno część bada
 i programistyczną).}
 
 \section{Wprowadzenie}
-{\color{blue}
-We wprowadzeniu należy zaprezentować niezbędną teorię potrzebną do realizacji
-zadania (przy czym należy tu ograniczyć się wyłącznie do tego, co było
-wykorzystane), tak aby inny student, który nigdy wcześniej nie zetknął się z tą
-tematyką, potrafił zrozumieć dalszy opis. Część ta powinna wprowadzać wszystkie
-wykorzystywane wzory, oznaczenia itp., do których należy się odwoływać w
-dalszej części niniejszego sprawozdania. Zamieszczony tu własny opis teorii (a
-nie skopiowany!) należy poprzeć odwołaniami bibliograficznymi do literatury
-zamieszczonej na końcu.}
+\subsection{Algorytm BFS}
+Algorytm BFS działa w taki sposób, że przeszukuje wszystkie możliwe stany idąc wszerz od węzła głównego – przeszukuje zatem wszystkie dostępne węzły na danej głębokości. Przekładając to na praktyczną implementację w „piętnastce” węzłem początkowym jest stan układanki, którą należy rozwiązać, a końcowym – układanka rozwiązana – ze wszystkimi elementami na odpowiedniej kolejności. Podczas każdej iteracji algorytmu sprawdza on dostępne możliwe ruchy, i jeżeli dane przesunięcie elementu zerowego da w rezultacie układ, który nie był do tej pory dla algorytmu znany, to staje się on kolejnym węzłem i będzie bazą do generowania możliwych przesunięć w kolejnych iteracjach. Po wygenerowaniu możliwych stanów dla danego węzła algrytm przystępuje do generowania możliwych stanów dla kolejnego węzła na tej samej głębokości, o ile jest on dostępny. Stosowana w tym przypadku jest struktura FIFO(kolejka). Algorytm kończy się w momencie, w którym napotka na stan, który odpowiada rozwiązanej układance.
+\subsection{Algorytm DFS}
+Algorytm DFS natomiast wyszukuje „w głąb”, czyli zamiast eksplorować wszystkie możliwe stany układanek na jednej głębokości zajmuje się jedną konkretną gałęzią – gdy znajdzie możliwy ruch w danej układance to wykonuje go, i dla układanki świeżo co zmienionej eksploruje kolejne możliwe przesunięcia. Algorytm będzie szedł „w głąb” tak długo, aż nie wyczerpie liczby możliwych stanów(co w przypadku układanki 4x4 zajęłoby bardzo dużo czasu) bądź gdy osiągnie zadaną liczbę stanów określoną manualnie w algorytmie przez programistę. Niezależnie od napotkanej przyczyny niemożności wykonania kolejnych przesunięć gdy taka sytuacja nastąpi, to algorytm cofa się do poprzedniego węzła i eksploruje kolejny możliwy stan tak samo jak w poprzednim przypadku. Algorytm DFS jest bardzo łatwy w implementacji za pomocą rekursji, natomiast można go też z powodzeniem zaimplementować iteracyjnie używając do tego celu stosu(LIFO). Algorytm kończy się, gdy znaleziona układanka będzie w takim stanie, jak układanka rozwiązana.
+
+\subsection{Algorytm A*}
+Algorytm A* jest w swoim działaniu podobny do algorytmu BFS, jednakże ma jedną sporą różnicę – nie wyznacza on „na ślepo” kolejnych możliwych sąsiadów – w naszym przypadku rozwiązań układanki, tylko posługuje się określoną metryką pozwalającą wyznaczyć najbardziej optymalny stan. W przypadku zaimplementowanego algorytmu zostały zastosowane dwie metryki:
+    • Hamminga – bardzo prosta, jest to liczba pól układanki, które nie są na swoich miejscach
+    • Manhattan – jest to suma odległości manhattan każdego z pól układanki od swojego miejsca docelowego
+Generalnie wzór opisujący obliczanie metryki dla kolejnego stanu wygląda następująco:
+\begin{equation}
+f(n) = h(n) + g(n)
+\end{equation}
+gdzie:
+\begin{itemize}
+\item \(f(n)\) --- aktualny priotytet danego węzła (układanki)
+\item \(h(n)\) --- wartość przyjętej metryki (w tym przypadku Hamminga lub Manhattan)
+\item \(g(n)\) --- głębokość aktualnie przetwarzanego węzła
+\end{itemize}
+
+W odróżnieniu od poprzednio opisanych algorytmów A* korzysta z tzw kolejki z priorytetem – jak sama nazwa wskazuje pierwszeństwo w przetwarzaniu ma zawsze węzeł, który posiada najmniejszy w tym wypadku priorytet(mniej = lepiej). Przetwarzanie jest realizowane do momentu, gdy zostanie odnaleziony właściwy układ planszy lub wyczerpią się możliwości ruchów.
+
 
 \section{Opis implementacji}
-{\color{blue}
-Należy tu zamieścić krótki i zwięzły opis zaprojektowanych klas oraz powiązań
-między nimi. Powinien się tu również znaleźć diagram UML (diagram klas)
-prezentujący najistotniejsze elementy stworzonej aplikacji. Należy także podać,
-w jakim języku programowania została stworzona aplikacja.}
+Program rozwiązujący łamigłówkę składa się z następujących plików:
+\begin{itemize}
+      \item main.py --- plik główny służący do wywoływania programu, przyjmujący parametry określone w zadaniu
+      \item Board.py --- klasa reprezentująca obiekt układanki, pozwalająca na manupulację polami, operacje na planszy
+     \item Solver.py --- klasa odpowiedzialna za rozwiązywanie układanki, zawiera metody rozwiązujące z odpowiednimi algorytmami (dfs, bfs, A*)
+     \item runprog.sh --- skrypt uruchamiający przeszukiwanie układanek w trybie wsadowym
+     \item runval.sh --- skrypt walidujący rozwiązania układanek zamieszczonych w plikach tekstowych
+     \item exdata.sh --- skrypt pozwalający złączyć dane z wielu plików w jeden w celu wygodnego ich przetwarzania
+ \end{itemize}
+
+Skrypty w języku bash zostały pobrane ze strony przedmiotu.
+
+Program wywołuje się poprzez plik main przekazując do niego odpowiednie parametry zgodne z tymi umieszczonymi na stronie przedmiotu, są to:
+
+\begin{itemize}
+    \item rodzaj algorytmu (bfs/dfs/astr)
+    \item kolejność przeszukiwania w przypadku bfs/dfs lub metryka w przypadku A*
+    \item nazwa pliku z układanką do rozwiązania
+    \item nazwa pliku, do którego ma zostać zapisane rozwiązanie układanki
+    \item nazwa pliku, do którego mają zostać zapisane statystyki dotyczące rozwiązania
+\end{itemize}
+
+Początkowo planowaliśmy napisać program w Javie, gdyż jest ona podobnie międzyplatformowa i kompilowana do bajtkodu.
+Nawet pomimo jej większej efektywności i mniej surowych reguł składni do wykonania tego zadania wykorzystaliśmy język Python.
+Ma on dynamiczne typy i jest interpretowany, czyli powolny, jednak jego kod ma mniej \emph{boilerplate} --- można wyrazić swoje myśli w kodzie mniejszą ilością znaków.
+rogram napisany został w języku programowania python. 
 
 \section{Materiały i metody}
-{\color{blue}
-W tym miejscu należy opisać, jak przeprowadzone zostały wszystkie badania,
-których wyniki i dyskusja zamieszczane są w dalszych sekcjach. Opis ten
-powinien być na tyle dokładny, aby osoba czytająca go potrafiła wszystkie
-przeprowadzone badania samodzielnie powtórzyć w celu zweryfikowania ich
-poprawności. Przy opisie należy odwoływać się i stosować do
-opisanych w sekcji drugiej wzorów i oznaczeń, a także w jasny sposób opisać
-cel konkretnego testu. Najlepiej byłoby wyraźnie wyszczególnić (ponumerować)
-poszczególne eksperymenty tak, aby łatwo było się do nich odwoływać dalej.}
+Układanki do zbadania zostały wygenerowane przez program dostępny na stronie przedmiotu. Każda z układanek została zbadana każdym z algorytmów przy każdej możliwej kombinacji parametrów wywołania. 
+
+Do przeprowadzenia badania wszystkich wygenerowanych układów łamigłówek został wykorzystany skrypt dostępny na stronie przedmiotu. Umożliwiał on przetestowanie wszyskich możliwych kombinacji – wywoływał on w naszym przypadku program z odpowiednimi, ustandaryzowanymi wcześniej parametrami wywołania tak, aby zbadać wszyskie możliwe stany. Po uruchomieniu skryptu należało odczekać znaczną ilość czasu, aby ten wygenerował wszystkie niezbędne rozwiązania, które były dwoma rodzajami plików tekstowych zawierających:
+
+\begin{itemize}
+    \item plik 1: długość znalezionego rozwiązania, ciąg liter odpowiadający kolejności przesunięć, które prowadziły do rozwiązania układanki
+    \item plik 2: długość znalezionego rozwiązania, liczba stanów odwiedzonych, liczba stanów przetworzonych, maksymalna osiągnięta głębokość, czas wykonania(w ms)
+\end{itemize}
+
+Wynikiem wykonania programu było otrzymanie bardzo dużej liczby plików z danymi. W celu wygodnego ich przetwarzania został wykorzystany kolejny skrypt ze strony przedmiotu – exdata.sh, wyjście skryptu za pomocą potoku zostało przekierowane do pliku tekstowego, dzięki czemu można było na podstawie pojedynczego pliku utworzyć odpowiednie wykresy i analizować otrzymane w wyniku przetwarzania rozwiązań układanek dane.
 
 \section{Wyniki}
 {\color{blue}
@@ -98,11 +133,11 @@ Jest to jedna z najważniejszych sekcji tego sprawozdania, gdyż prezentuje
 poziom zrozumienia badanego problemu.}
 
 \section{Wnioski}
-{\color{blue}
-W tej, przedostatniej, sekcji należy zamieścić podsumowanie najważniejszych
-wniosków z sekcji poprzedniej. Najlepiej jest je po prostu wypunktować. Znów,
-tak jak poprzednio, najistotniejsze są wnioski o charakterze uniwersalnym.}
+Algorytm A* okazał się najszybszy, ale w teorii nie zawsze może dać rozwiązanie w przypadku bardziej skomplikowanych układanek. W przypadku tego algorytmu w naszych eksperymentach czas wykonania programu jak i ilosć odwiedzonych stanów pozostawała na bardzo niskim poziomie w miarę zwiększania się trudności poszczególnych układanek. 
 
+Algorytm bfs jest w teorii algorytmem, który zawsze znajdzie rozwiązanie, nie zawsze jednak w tak optymalnym czasie, jak algorytm wykorzystujący heurystyki. W tym przypadku czas rozwiązywania układanek przez algorytm bfs był na niskim poziomie, rozwiązane zostały wszysktie układanki. BFS jest algorytmem optymalnym, gdy nie znamy rozkładu danych i chcemy mieć pewność uzyskania rozwiązania.
+
+DFS okazał się w tym zestawieniu najwolniejszy, i choć rozwiązał wszystkie zadane układanki, robił to z największą liczbą przetworzonych i odwiedzonych stanów, a co za tym idzie z największym czasem wykonywania. Algorytm ten jeżeli źle, nieoptymalnie będzie wybierał kolejne węzły znacznie wydłuża swój czas wykonania i liczbę przetwarzanych/odwiedzanych stanów. Sytuacja wygląda inaczej, gdy znamy rozkład danych – wtedy DFS przy dobraniu optymalnych węzłów przetwarzających może okazać się naprawdę wydajnym rozwiązaniem.
 \begin{thebibliography}{0}
   \bibitem{l2short} T. Oetiker, H. Partl, I. Hyna, E. Schlegl.
     \textsl{Nie za krótkie wprowadzenie do systemu \LaTeX2e}, 2007, dostępny
