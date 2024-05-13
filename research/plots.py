@@ -54,20 +54,20 @@ def main():
     visited_states_data = extract_data(data, 6)
     processed_states_data = extract_data(data, 7)
 
-    # Create bar plots
-    create_bar_plot(time_data,
+    # typ 1
+    plotType1(time_data,
                     "Średni czas znalezienia rozwiązania w zależności od głębokości",
                     "Średni czas [ms]",
                     'time_vs_diff.png')
-    create_bar_plot(solution_length_data,
+    plotType1(solution_length_data,
                     "Średnia długość rozwiązania w zależności od głębokości",
                     "Średnia długość [ruchy]",
                     'sol_len_vs_diff.png')
-    create_bar_plot(visited_states_data,
+    plotType1(visited_states_data,
                     "Średnia liczba odwiedzonych stanów w zależności od głębokości",
                     "Średni numer odwiedzonych stanów",
                     'vstd_c_vs_diff.png')
-    create_bar_plot(processed_states_data, 
+    plotType1(processed_states_data,
                     "Średnia liczba przetworzonych stanów w zależności od głębokości",
                     "Średni numer przetworzonych stanów",
                     'proc_c_vs_diff.png')
