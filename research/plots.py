@@ -30,7 +30,7 @@ def extract_data(data, column_index, alg=None): # Function to extract relevant d
     return extracted_data
 
 # Function to create bar plots
-def plotType1(data, title, ylabel, filename):
+def plotType1(data, title, ylabel, filename, isLog=True):
     algorithms = list(data[1].keys())
     difficulty_levels = list(data.keys())
     bar_width = 0.35
@@ -47,7 +47,7 @@ def plotType1(data, title, ylabel, filename):
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.yscale('log') # dla BFSa
+    if isLog: plt.yscale('log')
     plt.savefig(os.path.join('pic', filename))
     plt.close()
 
@@ -59,29 +59,57 @@ def globalPlots(data):
     vs_data = extract_data(data, 6)
     ps_data = extract_data(data, 7)
     t_data = extract_data(data, 8)
-
+    
+    startName = "glob"
+    forName = ""
     # typ 1
     plotType1(t_data,
-                    "Średni czas znalezienia rozwiązania w zależności od głębokości",
-                    "Średni czas [ms]",
-                    'glob_time_vs_diff.png')
+              "Średni czas znalezienia rozwiązania w zależności od głębokości" + forName,
+              "Średni czas [ms]",
+              startName + '_time_vs_diff.png')
     plotType1(sl_data,
-                    "Średnia długość rozwiązania w zależności od głębokości",
-                    "Średnia długość [ruchy]",
-                    'glob_sol_len_vs_diff.png')
+              "Średnia długość rozwiązania w zależności od głębokości" + forName,
+              "Średnia długość [ruchy]",
+              startName + '_sol_len_vs_diff.png')
     plotType1(vs_data,
-                    "Średnia liczba odwiedzonych stanów w zależności od głębokości",
-                    "Średni numer odwiedzonych stanów",
-                    'glob_vstd_c_vs_diff.png')
+              "Średnia liczba odwiedzonych stanów w zależności od głębokości" + forName,
+              "Średni numer odwiedzonych stanów",
+              startName + '_vstd_c_vs_diff.png')
     plotType1(ps_data,
-                    "Średnia liczba przetworzonych stanów w zależności od głębokości",
-                    "Średni numer przetworzonych stanów",
-                    'glob_proc_c_vs_diff.png')
+              "Średnia liczba przetworzonych stanów w zależności od głębokości" + forName,
+              "Średni numer przetworzonych stanów",
+              startName + '_proc_c_vs_diff.png')
 def astarPlots(data):
     sl_data = extract_data(data, 5, alg="astr")
     vs_data = extract_data(data, 6, alg="astr")
     ps_data = extract_data(data, 7, alg="astr")
     t_data =  extract_data(data, 8, alg="astr")
+
+    startName = "astr"
+    # forName = "dla A*"
+    forName = ""
+
+    plotType1(t_data,
+              "Średni czas znalezienia rozwiązania w zależności od głębokości" + forName,
+              "Średni czas [ms]",
+              startName + '_time_vs_diff.png',
+              isLog=False)
+    plotType1(sl_data,
+              "Średnia długość rozwiązania w zależności od głębokości" + forName,
+              "Średnia długość [ruchy]",
+              startName + '_sol_len_vs_diff.png',
+              isLog=False)
+    plotType1(vs_data,
+              "Średnia liczba odwiedzonych stanów w zależności od głębokości" + forName,
+              "Średni numer odwiedzonych stanów",
+              startName + '_vstd_c_vs_diff.png',
+              isLog=False)
+    plotType1(ps_data,
+              "Średnia liczba przetworzonych stanów w zależności od głębokości" + forName,
+              "Średni numer przetworzonych stanów",
+              startName + '_proc_c_vs_diff.png',
+              isLog=False)
+
 
     pass # TODO: implement this
 
