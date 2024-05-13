@@ -16,7 +16,7 @@ declare -r \
 
 [ -f "$dataFile" ] && rm "$dataFile" && echo "Removed old data file"
 
-for filename in *; do
+for filename in ./*; do
     if [[ -f "$filename" && "$filename" =~ $stats_filename_regex ]]; then
         line=$(printf "%d %d %s %s " $((10#${BASH_REMATCH[1]})) \
                $((10#${BASH_REMATCH[2]})) ${BASH_REMATCH[3]} ${BASH_REMATCH[4]})
