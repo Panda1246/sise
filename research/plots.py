@@ -31,22 +31,22 @@ def extract_data(data, column_index, alg=None): # Function to extract relevant d
 
 # Function to create bar plots
 def plotType1(data, title, ylabel, filename, isLog=True):
-    algorithms = list(data[1].keys())
+    details = list(data[1].keys())
     difficulty_levels = list(data.keys())
     bar_width = 0.35
     index = [level for level in range(len(difficulty_levels))]  # Adjusted to use index as x-axis position
-    plt.figure(figsize=(10, 6))
-    for i, algorithm in enumerate(algorithms):
-        values = [sum(data[level][algorithm])/len(data[level][algorithm]) for level in difficulty_levels]
-        plt.bar(index, values, bar_width, label=algorithm)
+    for i, detail in enumerate(details):
+        values = [sum(data[level][detail])/len(data[level][detail]) for level in difficulty_levels]
+        plt.bar(index, values, bar_width, label=detail)
         index = [x + bar_width for x in index]
     plt.xlabel('Difficulty Level')
     plt.ylabel(ylabel)
     plt.title(title)
-    plt.xticks([level + bar_width for level in range(len(difficulty_levels))], difficulty_levels)
+    # plt.xticks([level + bar_width for level in range(len(difficulty_levels))], difficulty_levels)
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
+    plt.figure(figsize=(10, 6))
     if isLog: plt.yscale('log')
     plt.savefig(os.path.join('pic', filename))
     plt.close()
@@ -54,7 +54,6 @@ def plotType1(data, title, ylabel, filename, isLog=True):
 # Main function
 
 def globalPlots(data):
-    # Extract relevant data for plotting
     sl_data = extract_data(data, 5)
     vs_data = extract_data(data, 6)
     ps_data = extract_data(data, 7)
