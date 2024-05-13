@@ -45,13 +45,11 @@ def plotType1(data, title, ylabel, filename, isLog=True):
     # plt.xticks([level + bar_width for level in range(len(difficulty_levels))], difficulty_levels)
     plt.legend()
     plt.grid(True)
-    plt.tight_layout()
-    plt.figure(figsize=(10, 6))
+    # plt.tight_layout()
+    # plt.figure(figsize=(10, 6))
     if isLog: plt.yscale('log')
     plt.savefig(os.path.join('pic', filename))
     plt.close()
-
-# Main function
 
 def globalPlots(data):
     sl_data = extract_data(data, 5)
@@ -78,6 +76,7 @@ def globalPlots(data):
               "Średnia liczba przetworzonych stanów w zależności od głębokości" + forName,
               "Średni numer przetworzonych stanów",
               startName + '_proc_c_vs_diff.png')
+
 def astarPlots(data):
     sl_data = extract_data(data, 5, alg="astr")
     vs_data = extract_data(data, 6, alg="astr")
