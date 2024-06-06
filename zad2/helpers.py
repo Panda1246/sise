@@ -70,7 +70,7 @@ def creating_neuron_network():
     return network
 
 def early_stopping():
-    return EarlyStopping(monitor='val_loss', patience=3, min_delta=0.0000001, verbose=1)
+    return EarlyStopping(monitor='loss', patience=3, min_delta=0.0000001, verbose=1)
 
 def prediction_and_error(network, dynamic_measurement, dynamic_reference):
     prediction = network.predict(dynamic_measurement)
