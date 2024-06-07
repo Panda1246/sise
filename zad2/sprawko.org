@@ -1,7 +1,7 @@
 #+TITLE: Sztuczna Inteligencja i Systemy ekspertowe
 #+SUBTITLE: Zadanie 2: Poprawa lokalizacji UWB przy pomocy sieci neuronowych
-
 #+AUTHOR: Filip Kobierski 242336, Piotr Polakowski 247768, Jakub Samek 247781
+#+OPTIONS: toc:nil
 
 * Cel
 Zaprojektowanie i zaimplementowanie sieci neuronowej, która pozwoli na korygowanie błędów uzyskanych z systemu pomiarowego.
@@ -63,6 +63,7 @@ Poza wspomnianymi wyżej bibliotekami użyliśmy również:
 - =glob=
 * Wyniki
 Wagi poszczególnych neuronów prezentują rysunki [[wagi_1]] do [[wagi_3]], podczas gdy efektywność naszej sieci podsumowuje rysunek [[wykres]].
+Na nim oś x oznacza błąd pomiaru, a oś y to prawdopodobieńśtwo wystąpienia zmiennej losowej, której wartości odległości od oczekiwanej (rzeczywistej) jest mniejsza lub równa wartości na osi odcięych.
 
 #+CAPTION: Wagi neuronów w pierwszej warstwie
 #+NAME: wagi_1
@@ -103,5 +104,28 @@ Wagi poszczególnych neuronów prezentują rysunki [[wagi_1]] do [[wagi_3]], pod
 #+NAME: wykres
 [[./dis_error.jpg]]
 * Dyskusja
+Przy tworzeniu naszej sieci testowaliśmy jak sprawdzają się różne funkcje aktywacji:
+- =sigmoid=
+- =elu=
+- =relu=
+- =selu=
+- =tanh=
+- =softmax=
+Ta ostatnia okazała się najgorsza do tego zadania, co poazuje obrazek [[bad]].
 
+#+CAPTION: Działanie funkcji =softmax=
+#+NAME: bad
+[[./bad.jpg]]
+
+Pozostałe funkcje aktywacji były ze sobą porównywalnie i znacząco lepsze od softmax'a.
+
+Podczas trenowania sieci zaobserwowaliśmy zjawisko przetrzenowania (/overfitting/) -- nasza sieć szkoliła zaczynała sobie lepiej radzić na statycznych danych treningowych, lecz gorzej na dynamicznych danych testowach.
+Aby sobie z tym poradzić, zgodnie z wiedzą z wykładu, zatrzymywaliśmy wtedy uczenie.
 * Wnioski
+Wykres [[wykres]] pokazuje, że dane po wyjściu z naszej sieci neuronowej są bardziej dokładne, czyli sieć spełnia swoje zadanie.
+Kolejnym pytaniem które trzeba sobie zadać jest /Czy to się opłaca?/. My go nie zadajemy bo nie musimy.
+
+Podczas tworzenia sieci neuronowej należy wziąć pod uwagę wiele czynników, takich jak liczba neuronów i warstw, a także liczba epok. Ważne jest również dobranie odpowiedniej funkcji aktywacji, gdyż nie każda funkcja sprawdzi się w każdej sieci.
+
+Ponadto, należy zwrócić uwagę, że funkcja aktywacji używana w sieci neuronowej może mieć duży wpływ na jej działanie.
+Niektóre typowe funkcje aktywacji obejmują funkcje sigmoid, tanh i ReLU, a najlepszy wybór zależy od konkretnej aplikacji i danych używanych.
