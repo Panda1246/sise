@@ -20,6 +20,7 @@ Mamy do wyboru dwa rodzaje plików - dynamiczne i statyczne
 
 
 def readData(fileType: str, columnNames: list, sourceFolder="pomiary") -> tuple[pd.DataFrame, pd.DataFrame]:
+    # REVIEW(242336): można by tu zamiast stringa przekazywać flagę (bool) dynamic
     if fileType == 'dynamic':
         all_files = glob(f"{sourceFolder}/F*/*.xlsx")
         files = [f for f in all_files if not (re.search("stat", f) or re.search("random", f))]
