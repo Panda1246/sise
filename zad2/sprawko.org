@@ -10,11 +10,11 @@ Sieć ma być uczona na danych statycznych a testowana na dynamicznych.
 * Opis architektury sieci neuronowej
 #+begin_comment
 Opis architektury sieci neuronowej zawierający przynajmniej informację o:
-- [ ] liczbie warstw sieci neuronowej,
-- [ ] liczebność neuronów w poszczególnych warstwach,
-- [ ] funkcjach aktywacji zastosowanych w poszczególnych warstwach
-- [ ] liczbie próbek z poprzednich chwil czasowych wykorzystywanych przez sieć neuronową
-- [ ] wagach poszczególnych neuronów w warstwach
+- [X] liczbie warstw sieci neuronowej,
+- [X] liczebność neuronów w poszczególnych warstwach,
+- [X] funkcjach aktywacji zastosowanych w poszczególnych warstwach
+- [X] liczbie próbek z poprzednich chwil czasowych wykorzystywanych przez sieć neuronową
+- [X] wagach poszczególnych neuronów w warstwach
 #+end_comment
 
 
@@ -37,8 +37,33 @@ Przy jej pomocy, metodą prób i błędów, ustaliliśmy, że optymalna ilość 
 # TODO: potwierdźcie tę liczbę ^
 Uczenie realizowaliśmy na trzydziestodwuelementowych paczkach zestwu treningowego.
 
+Nasza sieć na wejściu przyjmuje wartości z kolumn:
+1. =data_coordinates__x=
+2. =data_coordinates__y=
+3. =reference__x=
+4. =reference__y=
+oraz zwraca:
+1. wagi neuronów
+2. wykres porównujący dystrybuanty błędów
+3. plik arkusza kalkulacyjnego Microsoft Excel =xlsx= zawierający pojedyńczą kolumnę z wartościami dystrybuanty błędu pozyskanych w filtracji siecią neuronową.
 
+Pozwolimy sobie tutaj zauważyć, że naszym zdaniem format =xlsx= jest niepotrzebne skomplikowany do tego zadania.
+Lepiej sprawdziłoby się tu prostsze =csv=, a jeśli z jakiegoś powodu potrzebne są funkcje arkusza kalkulacyjnego,
+to format =ods= zdaje się nam być lepszym wyborem.
+
+Do trenowania sieci (statycznie) użyliśmy materiałów udostępnionych nam na stronie przedmiotu.
+Testy były oczywiście przeprowadzane na danych dynamicznych.
+** Reszta bibliotek
+Poza wspomnianymi wyżej bibliotekami użyliśmy również:
+- =numpy=
+- =pandas=
+- =matplotlib=
+- =re=
+- =math=
+- =glob=
 * Wyniki
+Wagi poszczególnych neuronów prezentują rysunki [[wagi_1]] do [[wagi_3]], podczas gdy efektywność naszej sieci podsumowuje rysunek [[wykres]].
+
 #+CAPTION: Wagi neuronów w pierwszej warstwie
 #+NAME: wagi_1
 #+begin_src 
@@ -73,6 +98,10 @@ Uczenie realizowaliśmy na trzydziestodwuelementowych paczkach zestwu treningowe
  [-0.2572863   0.02113466]
  [ 0.87135744  0.2554335 ]]
 #+end_src
+
+#+CAPTION: Wykres
+#+NAME: wykres
+[[./dis_error.jpg]]
 * Dyskusja
 
 * Wnioski
